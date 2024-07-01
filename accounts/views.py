@@ -7,6 +7,7 @@ from .serializers import UserInfoSerializer, StrategySerializer
 from base.views import HandleException
 from rest_framework import status
 from base.permissions import UserPermission
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ class UserInfoView(HandleException, APIView):
         data=request.data
         serializer=UserInfoSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(password=make_password(data["password"]))
         return Response(
                 {"status": True, "message": "Data saved successfully"},
                 status=status.HTTP_201_CREATED,
