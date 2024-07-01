@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import UserInfo, Strategy
+from .models import User, Strategy
 
 class UserInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserInfo
+      class Meta:
+        model = User
         fields = "__all__"
 
 class StrategySerializer(serializers.Serializer):
