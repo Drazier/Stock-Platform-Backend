@@ -7,7 +7,10 @@ from .serializers import UserInfoSerializer, StrategySerializer
 from base.views import HandleException
 from rest_framework import status
 from base.permissions import UserPermission
-
+from django.contrib.auth.hashers import make_password
+from rest_framework.authtoken.models import Token
+from .serializers import LoginSerializer
+from django.contrib.auth import authenticate
 # Create your views here.
 
 
@@ -23,7 +26,7 @@ class UserInfoView(HandleException, APIView):
         data=request.data
         serializer=UserInfoSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(password=make_password(data["password"]))
         return Response(
                 {"status": True, "message": "Data saved successfully"},
                 status=status.HTTP_201_CREATED,
@@ -100,3 +103,18 @@ class StrategyView(HandleException, APIView):
             {"status": True, "message": "Data deleted successfully"},
             status=status.HTTP_200_OK,
         )
+
+class LoginView(APIView):
+    def post(self,request):
+        serializer=LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            email=serializer.validated_data["email"]
+            password=serializer.validated_data["password"]
+            user=authenticate(email=email,password=password)
+            if user:
+                token,created=Token.objects.get_or_create(user=user)
+                return Response({'token':token.key},status=status.HTTP_200_OK)
+            else:
+                return Response({"error":"Invalid Credentials"},status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"status":False,"message":"Invalid Data"},status=status.HTTP_400_BAD_REQUEST)
+

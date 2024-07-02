@@ -15,4 +15,6 @@ class StrategySerializer(serializers.Serializer):
     para_3 = serializers.IntegerField()
     para_4 = serializers.IntegerField()
 
-    
+class LoginSerializer(serializers.Serializer):
+    email=serializers.CharField()
+    password=serializers.CharField()
