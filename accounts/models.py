@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractUser,BaseModel):
     email = models.EmailField(unique=True)
-    user_name = models.CharField(max_length=150, blank=True)
+    username = models.CharField(max_length=150, blank=True)
     phone_no = models.CharField(max_length=12, unique=True, null=True, blank=True)
     
     USERNAME_FIELD = "email"
@@ -55,3 +55,11 @@ class Strategy(BaseModel):
     para_2 = models.IntegerField(blank=True, null=True)
     para_3 = models.IntegerField(blank=True, null=True)
     para_4 = models.IntegerField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.user},{self.strategy_name}"
+    
+class TickerSymbol(BaseModel):
+
+    ticker = models.CharField(max_length=30, unique=True)
+    symbol_name = models.CharField(max_length=100, unique=True)
