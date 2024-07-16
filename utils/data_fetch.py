@@ -112,12 +112,11 @@ def connect_to_engine(engine):
     conn = engine.connect()
     return conn
 
-
 user_name = "postgres"
 user_password = "root"
 host = "localhost"
 port = "5432"
-database_name = "django_db_test"
+database_name = "Demo"
 
 # PostgreSQL connection string
 postgres_connection_string = (

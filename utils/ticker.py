@@ -20,8 +20,8 @@ ticker_data = [
     ("Asian Paints Ltd.", "ASIANPAINT"),
     ("Astral Ltd.", "ASTRAL"),
     ("AU Small Finance Bank Ltd.", "AUBANK"),
-    ("Aurobindo Pharma Ltd.", "AUROPHARMA"),
-    ("Axis Bank Ltd.", "AXISBANK"),
+    #("Aurobindo Pharma Ltd.", "AUROPHARMA"),
+    # ("Axis Bank Ltd.", "AXISBANK"),
     ("Bajaj Auto Ltd.", "BAJAJ-AUTO"),
     ("Bajaj Finance Ltd.", "BAJFINANCE"),
     ("Bajaj Finserv Ltd.", "BAJAJFINSV"),
@@ -72,7 +72,7 @@ ticker_data = [
     ("Havells India Ltd.", "HAVELLS"),
     ("HCL Technologies Ltd.", "HCLTECH"),
     ("HDFC Asset Management Company Ltd.", "HDFCAMC"),
-    ("HDFC Bank Ltd.", "HDFCBANK"),
+    #("HDFC Bank Ltd.", "HDFCBANK"),
     ("HDFC Life Insurance Company Ltd.", "HDFCLIFE"),
     ("Hero MotoCorp Ltd.", "HEROMOTOCO"),
     ("Hindalco Industries Ltd.", "HINDALCO"),
@@ -186,7 +186,7 @@ ticker_data = [
     ("Voltas Ltd.", "VOLTAS"),
     ("Wipro Ltd.", "WIPRO"),
     ("Yes Bank Ltd.", "YESBANK"),
-    ("Zydus Lifesciences Ltd.", "ZYDUSLIFE"),
+    #("Zydus Lifesciences Ltd.", "ZYDUSLIFE"),
 ]
 
 
