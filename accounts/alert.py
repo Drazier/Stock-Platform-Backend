@@ -14,30 +14,42 @@ from IPython.display import clear_output, display  # Library for clearing output
 import subprocess  # Library for subprocess management
 import re  # Library for regular expressions
 import pyautogui  # Library for GUI automation
-from telegram import Bot
-from telegram.error import TelegramError
+import requests
 
 # from plotly.subplots import make_subplots
 
 from sqlalchemy import create_engine, Table, MetaData  # Library for database connection
 
-def send_telegram_message(message, api_token="7394095348:AAFiJ8WcVU25mQkDcaYjtmffWUNhKVFUyFQ", chat_id=""):
+def send_telegram_message(message, chat_id="5436559064"):
     """
-    Sends a message to a specified chat ID using a Telegram bot.
-    
-    :param api_token: The API token of the Telegram bot.
-    :param chat_id: The chat ID or username to send the message to.
-    :param message: The message to send.
-    :return: True if the message is sent successfully, False otherwise.
+    Sends a message to a Telegram chat.
+
+    Parameters:
+    bot_token (str): The bot token for your Telegram bot.
+    chat_id (str): The chat ID of the recipient.
+    message (str): The message you want to send.
+
+    Returns:
+    None
     """
-    bot = Bot(token=api_token)
+
+    #BOT TOKEN
+    bot_token = "7309139333:AAFiltyTFTm7Dk9muodw4TiSiOH51uRBe9I"
     
-    try:
-        bot.send_message(chat_id=chat_id, text=message)
-        return True
-    except TelegramError as e:
-        print(f"Error sending message: {e}")
-        return False
+    # The Telegram API URL
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    
+    # The parameters for the API request
+    params = {"chat_id": chat_id, "text": message}
+    
+    # Sending the message
+    response = requests.get(url, params=params)
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        print("Message sent successfully!")
+    else:
+        print(f"Failed to send message. Error: {response.status_code}")
 
 def return_df(stock):
     user_name = "postgres"
@@ -266,13 +278,15 @@ def cal_rsi(df,time,period=14):
     df['Avg_Loss'] = df['Loss'].rolling(window=period).mean()
     df['RS'] = df['Avg_Gain']/df['Avg_Loss']
     df[f'RSI_{time}'] = 100 - (100 / (1 + df['RS']))
-    return df[['Datetime',f'RSI_{time}']]
+    df=df[['Datetime',f'RSI_{time}']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=[f'RSI_{time}'], inplace=True)
+    return df
 
 def check_rsi(df,time):
+    df=df.copy()
     cur=df[f"RSI_{time}"].iloc[-1]
     prev=df[f"RSI_{time}"].iloc[-2]
-    # print(cur)
-    # print(prev)
     if(cur>70 and prev<=70):
         return("RSI crosses above")
     if(cur<30 and prev>=30):
@@ -280,43 +294,46 @@ def check_rsi(df,time):
     return("No update")
 
 def alert_rsi(data, period=14):
-    message = "\nRSI update : "
+    message = "\n*RSI update : *"
 
     data_15=data.tail(period+2)
     # print("1 : \n",data_15["15m_Close"])
-    data_15=cal_rsi(data_15,"15m",period)
-    message+="\n15 minute "+check_rsi(data_15,"15m")
+    data_15=cal_rsi(data_15,"15m",period).fillna(0)
+    message+="\n*15 minute : *"+check_rsi(data_15,"15m")
 
     filt=(data['Datetime'].dt.minute==15)
     data=data.loc[filt]
     data_60=data.tail(period+2)
     # print("2 :\n",data_60["60m_Close"])
-    data_60=cal_rsi(data_60,"60m",period)
-    message+="\n60 minute "+check_rsi(data_60,"60m")
+    data_60=cal_rsi(data_60,"60m",period).fillna(0)
+    message+="\n*60 minute : *"+check_rsi(data_60,"60m")
 
     filt = (data['Datetime'].dt.hour == 9)
     data_1=data.loc[filt].tail(period+2)
     # print("3 :\n",data_1["1d_Close"])
-    data_1=cal_rsi(data_1,"1d",period)
-    message+="\nDaily "+check_rsi(data_1,"1d")
+    data_1=cal_rsi(data_1,"1d",period).fillna(0)
+    message+="\n*Daily : *"+check_rsi(data_1,"1d")
     
-    if message=="\nRSI update : ":
-        message="\nNo RSI update!"
+    if message=="\n*RSI update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message="\nNo RSI update!"
+        message=""
     
-    # send_whatsapp_messages("leads.csv", message)
-    # send_email(message_text=message)
-    # send_telegram_message(message)
     return(message)
 
 stock="HDFCBANK"
 # print(stock)
 
 def cal_macd(df,time,para1=12,para2=26,para3=9):
+    df=df.copy()
     df['EMA_12'] = df[f'{time}_Close'].ewm(span=para1, adjust=False).mean()
     df['EMA_26'] = df[f'{time}_Close'].ewm(span=para2, adjust=False).mean()
     df[f'MACD_{time}']=df['EMA_12']-df['EMA_26']
     df[f'MACD_signal_{time}'] = df[f'MACD_{time}'].ewm(span=para3, adjust=False).mean()
-    return df[['Datetime',f'MACD_{time}',f'MACD_signal_{time}']]
+    df=df[['Datetime',f'MACD_{time}',f'MACD_signal_{time}']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=[f'MACD_{time}',f'MACD_signal_{time}'], inplace=True)
+    df = df.fillna(value=np.nan).replace({np.nan: None})
+    return df
 
 def check_macd(df,time):
     df.rename(columns={f'MACD_{time}': 'MACD', f'MACD_signal_{time}': 'MACD_signal'}, inplace=True)
@@ -338,25 +355,27 @@ def check_macd(df,time):
 def alert_macd(data,para1=12,para2=26,para3=9):
     df_15m=data.tail(para2+2)
     # print(df_15m["15m_Close"])
-    message="\nMACD update : "
-    df_15m=cal_macd(df_15m,"15m",para1,para2,para3)
-    message=message+"\n15 minute "+check_macd(df_15m,"15m")
+    message="\n*MACD update : *"
+    df_15m=cal_macd(df_15m,"15m",para1,para2,para3).fillna(0)
+    message=message+"\n*15 minute : *"+check_macd(df_15m,"15m")
     
     filt=(data['Datetime'].dt.minute==15)
     data=data.loc[filt]
     df_60m=data.tail(para2+2)
     # print(df_60m["60m_Close"])
-    df_60m=cal_macd(df_60m,"60m",para1,para2,para3)
-    message=message+"\n60 minute "+check_macd(df_60m,"60m")
+    df_60m=cal_macd(df_60m,"60m",para1,para2,para3).fillna(0)
+    message=message+"\n*60 minute : *"+check_macd(df_60m,"60m")
     
     filt=(data['Datetime'].dt.hour==9)
     df_1d=data.loc[filt].tail(para2+2)
     # print(df_1d["1d_Close"])
-    cal_macd(df_1d,"1d",para1,para2,para3)
-    message=message+"\nDaily "+check_macd(df_1d,"1d")
+    df_1d=cal_macd(df_1d,"1d",para1,para2,para3).fillna(0)
+    message=message+"\n*Daily : *"+check_macd(df_1d,"1d")
     
-    # send_whatsapp_messages("leads.csv", message)
-    # send_email(message_text=message)
+    if message == "\n*MACD update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message = "\nNo ADX update!"
+        message=""
+    
     return(message)
 
 def cal_dm(df,n):
@@ -366,7 +385,6 @@ def cal_dm(df,n):
     df['-DM'] = np.where((down_move > up_move) & (down_move > 0), down_move, 0)
     df['+DM_smooth'] = df["+DM"].ewm(span=n, adjust=False).mean()
     df['-DM_smooth'] = df["-DM"].ewm(span=n, adjust=False).mean()
-    df.drop(columns=["+DM","-DM"], inplace=True)#
     df = cal_index(df,n)
     return df
 
@@ -375,7 +393,6 @@ def cal_tr(df, n):
                       np.maximum(abs(df["High"] - df["Close"].shift(1)), 
                                  abs(df["Low"] - df["Close"].shift(1))))
     df['ATR'] = df["TR"].ewm(span=n, adjust=False).mean()
-    del df['TR']#
     df = cal_dm(df,n)
     return df
 
@@ -383,19 +400,20 @@ def cal_index(df,n):
     df['+DI'] = (df['+DM_smooth'] / df['ATR']) * 100
     df['-DI'] = (df['-DM_smooth'] / df['ATR']) * 100
     df['DX'] = abs(df['+DI'] - df['-DI']) / (df['+DI'] + df['-DI']) * 100
-    
     df['ADX'] = df['DX'].rolling(window=n).mean()
-    df.drop(columns=['ATR','+DM_smooth', '-DM_smooth', 'DX'], inplace=True)#
-    return df
+    return df[['Datetime','+DI','-DI','ADX']]
 
 
-def cal_adx(df, time, n):
-    df = df[[f'{time}_High', f'{time}_Low', f'{time}_Close']].apply(pd.to_numeric, errors='coerce')
+def cal_adx(df, time, n=14):
+    df=df.copy()
     df.rename(columns={f'{time}_High': 'High', f'{time}_Low': 'Low', f'{time}_Close':'Close'}, inplace=True)
+    df=df[['Datetime','High','Low','Close']]
     df = cal_tr(df, n)
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=['ADX','+DI','-DI'], how='all', inplace=True) 
+    df = df.fillna(value=np.nan).replace({np.nan: None})
     df.rename(columns={'ADX':f'ADX_{time}','+DI':f'+DI_{time}','-DI':f'-DI_{time}'},inplace=True)
-    return df[['Datetime',f'ADX_{time}',f'+DI_{time}',f'-DI_{time}']]
-
+    return df
 
 def check_adx(df,time):
     df.rename(columns={f'ADX_{time}':'ADX',f'+DI_{time}':'+DI',f'-DI_{time}':'-DI'},inplace=True)
@@ -404,7 +422,6 @@ def check_adx(df,time):
     cur_pdi = df['+DI'].iloc[-1]
     pre_mdi = df['-DI'].iloc[-2]
     cur_mdi = df['-DI'].iloc[-1]
-    df.drop(columns=['+DI', '-DI', 'ADX'], inplace=True)
 
     # print("-----------------")
     # print(cur_adx)
@@ -418,45 +435,48 @@ def check_adx(df,time):
             return "ADX signals uptrend"
         if cur_pdi < cur_mdi and pre_pdi >= pre_mdi:
             return "ADX signals downtrend"    
-    return "No Update"
+    return "No update"
 
 def alert_adx(data, period=14):
-    message = "\nADX update : "
+    message = "\n*ADX update : *"
     
     data_15 = data.tail(2 * period + 2)
-    data_15=cal_adx(data_15, '15m', n=period)
-    message += "\n15 minute "+check_adx(data_15, '15m')
+    data_15=cal_adx(data_15, '15m', period).fillna(0)
+    message += "\n*15 minute : *"+check_adx(data_15, '15m')
     
     filt_60 = (data['Datetime'].dt.minute == 15)
     data=data.loc[filt_60]
     data_60 = data.tail(2 * period + 2)
-    data_60=cal_adx(data_60, '60m', n=period)
-    message += "\n60 minute "+check_adx(data_60, '60m')
+    data_60=cal_adx(data_60, '60m', period).fillna(0)
+    message += "\n*60 minute : *"+check_adx(data_60, '60m')
     
     
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(2 * period + 2)
-    data_daily=cal_adx(data_daily, '1d', n=period)
-    message += "\nDaily "+check_adx(data_daily, '1d')
+    data_daily=cal_adx(data_daily, '1d', period).fillna(0)
+    message += "\n*Daily : *"+check_adx(data_daily, '1d')
     
-    if message == "\nADX update : ":
-        message = "\nNo ADX update!"
+    if message == "\n*ADX update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message = "\nNo ADX update!"
+        message=""
     
-    # send_whatsapp_messages("leads.csv", message)
-    # send_email(message_text=message)
     return(message)
 
-def cal_bb(df,time,n):
-    df.rename(columns={f'{time}_Close':'Close'})
-    df['SMA_20'] = df[f'Close'].rolling(window=n).mean()
-    df['SD_20'] = df['Close'].rolling(window=n).std()
+def cal_bb(df,time,n=20):
+    df=df.copy()
+    df['SMA_20'] = df[f'{time}_Close'].rolling(window=n).mean()
+    df['SD_20'] = df[f'{time}_Close'].rolling(window=n).std()
     df['BB_up'] = df['SMA_20']+2*df['SD_20']
     df['BB_low'] = df['SMA_20']-2*df['SD_20']
     df.rename(columns={'SMA_20':f'SMA_20_{time}','BB_up':f'BB_up_{time}', 'BB_low':f'BB_low_{time}'},inplace=True)
-    return df[['Datetime',f'SMA_20_{time}',f'BB_up_{time}',f'BB_low_{time}']]
+    df=df[['Datetime',f'SMA_20_{time}',f'BB_up_{time}',f'BB_low_{time}',f'{time}_Close']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=[f'SMA_20_{time}',f'BB_up_{time}',f'BB_low_{time}'], how='all', inplace=True)
+    df = df.fillna(value=np.nan).replace({np.nan: None})
+    return df
 
 def check_bb(df,time):
-    df.rename(columns={f'SMA_20_{time}':'SMA_20',f'BB_up_{time}':'BB_up', f'BB_low_{time}':'BB_low'},inplace=True)
+    df.rename(columns={f'SMA_20_{time}':'SMA_20',f'BB_up_{time}':'BB_up', f'BB_low_{time}':'BB_low', f'{time}_Close':'Close'},inplace=True)
     cur=df['Close'].iloc[-1]
     cur_bb_up=df['BB_up'].iloc[-1]
     cur_bb_low=df['BB_low'].iloc[-1]
@@ -472,43 +492,43 @@ def check_bb(df,time):
     return("No update")
 
 def alert_bb(data,n=20):
-    message = "\nBB update : "
+    message = "\n*BB update : *"
     
     data_15 = data.tail(n + 2)
-    data_15=cal_bb(data_15, '15m', n)
-    message += "\n15 minute "+check_bb(data_15, '15m')
+    data_15=cal_bb(data_15, '15m', n).fillna(0)
+    message += "\n*15 minute : *"+check_bb(data_15, '15m')
     
     filt_60 = (data['Datetime'].dt.minute == 15)
     data=data.loc[filt_60]
     data_60 = data.tail(n + 2)
-    data_60=cal_bb(data_60, '60m', n)
-    message += "\n60 minute "+check_bb(data_60, '60m')
+    data_60=cal_bb(data_60, '60m', n).fillna(0)
+    message += "\n*60 minute : *"+check_bb(data_60, '60m')
     
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(n +2)
-    data_daily=cal_bb(data_daily, '1d', n)
-    message += f"\nDaily "+check_bb(data_daily, '1d')
+    data_daily=cal_bb(data_daily, '1d', n).fillna(0)
+    message += f"\n*Daily : *"+check_bb(data_daily, '1d')
     
-    if message == "\BB update : ":
-        message = "\nNo BB update!"
+    if message == "\n*BB update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message = "\nNo BB update!"
+        message=""
     
-    # send_whatsapp_messages("leads.csv", message)
-    # send_email(message_text=message)
     return(message)
-
-def cal_ema(data,time,para1=20,para2=50,para3=100,para4=200):
-    l=[para1,para2,para3,para4]
-    data=data[[f'{time}_Close']]
-    data.columns = ['Close']
-    periods = [20, 50, 100, 200]
-    for i in range(4):
-        df=data.tail(l[i]+2)
-        print(time," ",l[i]," : \n",df[f'{time}_Close'])
-        df[f'{time}_EMA_{periods[i]}'] = df['Close'].ewm(span=l[i], adjust=False).mean()
-    return df[['Datetime',f'{time}_EMA_20',f'{time}_EMA_50',f'{time}_EMA_100',f'{time}_EMA_200']]
     
+def cal_ema(df, time, period1=20, period2=50, period3=100, period4=200):
+    df=df.copy()
+    df[f'{time}_EMA_20'] = df[f'{time}_Close'].ewm(span=period1, adjust=False).mean()
+    df[f'{time}_EMA_50'] = df[f'{time}_Close'].ewm(span=period2, adjust=False).mean()
+    df[f'{time}_EMA_100'] = df[f'{time}_Close'].ewm(span=period3, adjust=False).mean()
+    df[f'{time}_EMA_200'] = df[f'{time}_Close'].ewm(span=period4, adjust=False).mean()
+    df=df[['Datetime', f'{time}_EMA_20', f'{time}_EMA_50', f'{time}_EMA_100', f'{time}_EMA_200']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=[f'{time}_EMA_20'], inplace=True)
+    df = df.fillna(value=np.nan).replace({np.nan: None})
+    return df
+
 def check_ema(df,time):
-    df.rename(columns={f'{time}_EMA_20':'EMA_20', f'{time}_EMA_50':'EMA_50', f'{time}_EMA_100':'EMA_100', f'{time}_EMA_200':'EMA_200'})
+    df.rename(columns={f'{time}_EMA_20':'EMA_20', f'{time}_EMA_50':'EMA_50', f'{time}_EMA_100':'EMA_100', f'{time}_EMA_200':'EMA_200'},inplace=True)
     pre_20=df['EMA_20'].iloc[-2]
     cur_20=df['EMA_20'].iloc[-1]
     pre_50=df['EMA_50'].iloc[-2]
@@ -517,7 +537,6 @@ def check_ema(df,time):
     cur_100=df['EMA_100'].iloc[-1]
     pre_200=df['EMA_200'].iloc[-2]
     cur_200=df['EMA_200'].iloc[-1]
-    df.drop(columns=['EMA_20', 'EMA_50', 'EMA_100', 'EMA_200'], inplace=True)
     message=""
     if(pre_20<pre_50 and cur_20>cur_50):
         message+="\n\t20 day EMA crosses above 50 day EMA"
@@ -544,46 +563,48 @@ def check_ema(df,time):
     if(pre_100>pre_100 and cur_100<cur_200):
         message+="\n\t100 day EMA crosses below 200 day EMA"
     if message=="":
-        return("No Update!")
+        return("No update")
     else:
         return(message)
 
 def alert_ema(data,para1=20,para2=50,para3=100,para4=200):
-    message = "\nEMA update : "
+    message = "\n*EMA update : *"
     
     data_15 = data.tail(para4 + 2)
     data_15=cal_ema(data_15, '15m',para1,para2,para3,para4)
-    message += "\n15 minute : *"+check_ema(data_15, '15m')
+    message += "\n*15 minute : *"+check_ema(data_15, '15m')
     
     filt_60 = (data['Datetime'].dt.minute == 15)
     data=data.loc[filt_60]
     data_60 = data.tail(para4+2)
     data_60=cal_ema(data_60, '60m',para1,para2,para3,para4)
-    message += "\n*60 minute :* "+check_ema(data_60, '60m')
+    message += "\n*60 minute : * "+check_ema(data_60, '60m')
     
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(para4 + 2)
     data_daily=cal_ema(data_daily, '1d',para1,para2,para3,para4)
     message += f"\n*Daily : *"+check_ema(data_daily, '1d')
     
-    if message == "\EMA update : ":
-        message = "\nNo EMA Update!"
+    if message == "\n*EMA update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message = "\nNo EMA Update!"
+        message=""
     
-    # send_whatsapp_messages("leads.csv", message)
-    # send_email(message_text=message)
     return(message)
 
-def cal_sma(data,time,para1=20,para2=50,para3=100,para4=200):
-    l=[para1,para2,para3,para4]
-    periods = [20, 50, 100, 200]
-    for i in range(4):
-        df=data.tail(l[i]+2)
-        print(time," ",l[i]," : \n",df[f'{time}_Close'])
-        df[f'{time}_SMA_{periods[i]}'] = df[f'{time}_Close'].rolling(window=l[i]).mean()
-    return df[['Datetime',f'{time}_SMA_20',f'{time}_SMA_50',f'{time}_SMA_100',f'{time}_SMA_200']]
+def cal_sma(df, time, period1=20, period2=50, period3=100, period4=200):
+    df=df.copy()
+    df[f'{time}_SMA_20'] = df[f'{time}_Close'].rolling(window=period1).mean()
+    df[f'{time}_SMA_50'] = df[f'{time}_Close'].rolling(window=period2).mean()
+    df[f'{time}_SMA_100'] = df[f'{time}_Close'].rolling(window=period3).mean()
+    df[f'{time}_SMA_200'] = df[f'{time}_Close'].rolling(window=period4).mean()
+    df=df[['Datetime', f'{time}_SMA_20', f'{time}_SMA_50', f'{time}_SMA_100', f'{time}_SMA_200']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=[f'{time}_SMA_20'], inplace=True)
+    df = df.fillna(value=np.nan).replace({np.nan: None})
+    return df
     
 def check_sma(df,time):
-    df.rename(columns={f'{time}_SMA_20':'SMA_20', f'{time}_SMA_50':'SMA_50', f'{time}_SMA_100':'SMA_100', f'{time}_SMA_200':'SMA_200'})
+    df.rename(columns={f'{time}_SMA_20':'SMA_20', f'{time}_SMA_50':'SMA_50', f'{time}_SMA_100':'SMA_100', f'{time}_SMA_200':'SMA_200'},inplace=True)
     pre_20=df['SMA_20'].iloc[-2]
     cur_20=df['SMA_20'].iloc[-1]
     pre_50=df['SMA_50'].iloc[-2]
@@ -619,36 +640,89 @@ def check_sma(df,time):
     if(pre_100>pre_100 and cur_100<cur_200):
         message+="\n\t100 day SMA crosses below 200 day SMA"
     if message=="":
-        return("No Update!")
+        return("No update")
     else:
         return(message)
     
 def alert_sma(data,para1=20,para2=50,para3=100,para4=200):
-    message = "\nSMA update : "
+    message = "\n*SMA update : *"
     
     data_15 = data.tail(para4 + 2)
-    data_15=cal_sma(data_15, '15m',para1,para2,para3,para4)
+    data_15=cal_sma(data_15, '15m',para1,para2,para3,para4).fillna(0)
     message += "\n*15 minute : *"+check_sma(data_15, '15m')
     
     filt_60 = (data['Datetime'].dt.minute == 15)
     data=data.loc[filt_60]
     data_60 = data.tail(para4 + 2)
-    data_60=cal_sma(data_60, '60m',para1,para2,para3,para4)
+    data_60=cal_sma(data_60, '60m',para1,para2,para3,para4).fillna(0)
     message += "\n*60 minute : *"+check_sma(data_60, '60m')
     
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(para4 + 2)
-    data_daily=cal_sma(data_daily, '1d',para1,para2,para3,para4)
+    data_daily=cal_sma(data_daily, '1d',para1,para2,para3,para4).fillna(0)
     message += f"\n*Daily : *"+check_sma(data_daily, '1d')
     
-    if message == "\SMA update : ":
-        message = "\nNo SMA update!"
+    if message == "\n*SMA update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message = "\nNo SMA update!"
+        message=""
     
-    # send_whatsapp_messages("leads.csv", message)
-    # send_email(message_text=message)
     return(message)
 
+def cal_kc(df,time,n=20):
+    df=df.copy()
+    high = df[f'{time}_High']
+    low = df[f'{time}_Low']
+    close = df[f'{time}_Close']
+    df['TR'] = np.maximum(high-low, np.maximum(abs(high-close.shift(1)), abs(low-close.shift(1))))
+    df['ATR'] = df['TR'].rolling(window=n).mean()
+    df['EMA_20']=close.ewm(span=n,adjust=False).mean()
+    df[f'{time}_KC_up']=df['EMA_20']+df['ATR']*2
+    df[f'{time}_KC_low']=df['EMA_20']-df['ATR']*2
+    df.rename(columns={'EMA_20':f"{time}_EMA_20"},inplace=True)
+    df=df[['Datetime',f'{time}_EMA_20',f'{time}_KC_up',f'{time}_KC_low',f'{time}_Close']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(subset=[f'{time}_EMA_20',f'{time}_KC_up',f'{time}_KC_low'], inplace=True)
+    df = df.fillna(value=np.nan).replace({np.nan: None})
+    return df
+
+def check_kc(df, time):
+    df.rename(columns={f'{time}_Close':'Close', f'{time}_EMA_20':'EMA_20', f'{time}_KC_up':'KC_up', f'{time}_KC_low':'KC_low'}, inplace=True)
+    cur_price = df['Close'].iloc[-1]
+    cur_kc_up = df['KC_up'].iloc[-1]
+    cur_kc_low = df['KC_low'].iloc[-1]
+    
+    if cur_price > cur_kc_up:
+        return "Price crosses Upper Keltner Channel"
+    if cur_price < cur_kc_low:
+        return "Price crosses Lower Keltner Channel"
+    return "No update"
+
+def alert_kc(data,para1=20):
+    message = "\n*KC update : *"
+    
+    data_15 = data.tail(para1 + 2)
+    data_15=cal_kc(data_15, '15m',para1).fillna(0)
+    message += "\n*15 minute : *"+check_kc(data_15, '15m')
+    
+    filt_60 = (data['Datetime'].dt.minute == 15)
+    data=data.loc[filt_60]
+    data_60 = data.tail(para1 + 2)
+    data_60=cal_kc(data_60, '60m',para1).fillna(0)
+    message += "\n*60 minute : *"+check_kc(data_60, '60m')
+    
+    filt_daily = (data['Datetime'].dt.hour == 9)
+    data_daily = data.loc[filt_daily].tail(para1 + 2)
+    data_daily=cal_kc(data_daily, '1d',para1).fillna(0)
+    message += f"\n*Daily : *"+check_kc(data_daily, '1d')
+    
+    if message == "\n*KC update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
+        # message = "\nNo KC update!"
+        message = ""
+
+    return(message)
+    
 # while True:
+    # send_telegram_message("HI")
     # print(stock)
     # sql_df = return_df(stock)
     # alert_rsi(data=sql_df)
@@ -656,5 +730,5 @@ def alert_sma(data,para1=20,para2=50,para3=100,para4=200):
     # alert_adx(data=sql_df)
     # alert_sma(data=sql_df)
     # alert_bb(data=sql_df)
-    # time.sleep(5)
+    # time.sleep(900)
 

@@ -183,11 +183,7 @@ def fetch_data(ticker_symbol):
         # fill the null values with the previous values
         final_df.fillna(method="ffill", inplace=True)
 
-        final_dict = final_df.to_dict(orient="records")
-
-        # Serialize to JSON
-        with open(f"{ticker_symbol}.json", "w") as f:
-            json.dump(final_dict, f, default=str)
+        final_dict = final_df.to_dict(orient="records")        
 
         return final_dict
 

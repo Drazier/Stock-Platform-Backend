@@ -13,5 +13,9 @@ class StrategySerializer(serializers.ModelSerializer):
         fields="__all__"
         
 class LoginSerializer(serializers.Serializer):
-    email=serializers.CharField()
+    email=serializers.EmailField()
     password=serializers.CharField()
+    
+class IndicatorSerializer(serializers.Serializer):
+    ticker=serializers.CharField()
+    user = serializers.UUIDField()
