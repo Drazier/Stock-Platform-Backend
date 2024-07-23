@@ -323,403 +323,477 @@ def alert_rsi(data, period=14):
 stock="HDFCBANK"
 # print(stock)
 
-def cal_macd(df,time,para1=12,para2=26,para3=9):
-    df=df.copy()
+def cal_macd(df, time, para1=12, para2=26, para3=9):
+    df = df.copy()
+    # Calculate the 12-period Exponential Moving Average (EMA)
     df['EMA_12'] = df[f'{time}_Close'].ewm(span=para1, adjust=False).mean()
+    # Calculate the 26-period Exponential Moving Average (EMA)
     df['EMA_26'] = df[f'{time}_Close'].ewm(span=para2, adjust=False).mean()
-    df[f'MACD_{time}']=df['EMA_12']-df['EMA_26']
+    # Calculate the MACD line
+    df[f'MACD_{time}'] = df['EMA_12'] - df['EMA_26']
+    # Calculate the MACD Signal line
     df[f'MACD_signal_{time}'] = df[f'MACD_{time}'].ewm(span=para3, adjust=False).mean()
-    df=df[['Datetime',f'MACD_{time}',f'MACD_signal_{time}']]
+    # Keep only the Datetime, MACD, and MACD Signal columns
+    df = df[['Datetime', f'MACD_{time}', f'MACD_signal_{time}']]
+    # Replace infinite values with NaN and drop NaN values
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    df.dropna(subset=[f'MACD_{time}',f'MACD_signal_{time}'], inplace=True)
+    df.dropna(subset=[f'MACD_{time}', f'MACD_signal_{time}'], inplace=True)
+    # Fill NaN values with None
     df = df.fillna(value=np.nan).replace({np.nan: None})
     return df
 
-def check_macd(df,time):
+def check_macd(df, time):
+    # Rename columns for easier access
     df.rename(columns={f'MACD_{time}': 'MACD', f'MACD_signal_{time}': 'MACD_signal'}, inplace=True)
-    pre_macd=df['MACD'].iloc[-2]
-    pre_macd_signal=df['MACD_signal'].iloc[-2]
-    cur_macd=df['MACD'].iloc[-1]
-    cur_macd_signal=df['MACD_signal'].iloc[-1]
-    message="No update"
-    # print(cur_macd)
-    # print(cur_macd_signal)
-    # print(pre_macd)
-    # print(pre_macd_signal)
-    if cur_macd>cur_macd_signal and pre_macd<pre_macd_signal:
-        message="MACD crosses above"
-    if cur_macd<cur_macd_signal and pre_macd>pre_macd_signal:
-        message="MACD crosses below"
+    # Get previous and current MACD and MACD Signal values
+    pre_macd = df['MACD'].iloc[-2]
+    pre_macd_signal = df['MACD_signal'].iloc[-2]
+    cur_macd = df['MACD'].iloc[-1]
+    cur_macd_signal = df['MACD_signal'].iloc[-1]
+    message = "No update"
+    # Check for MACD crossing above the signal line
+    if cur_macd > cur_macd_signal and pre_macd < pre_macd_signal:
+        message = "MACD crosses above"
+    # Check for MACD crossing below the signal line
+    if cur_macd < cur_macd_signal and pre_macd > pre_macd_signal:
+        message = "MACD crosses below"
     return message
 
-def alert_macd(data,para1=12,para2=26,para3=9):
-    df_15m=data.tail(para2+2)
-    # print(df_15m["15m_Close"])
-    message="\n*MACD update : *"
-    df_15m=cal_macd(df_15m,"15m",para1,para2,para3).fillna(0)
-    message=message+"\n*15 minute : *"+check_macd(df_15m,"15m")
+def alert_macd(data, para1=12, para2=26, para3=9):
+    # Process 15-minute interval data
+    df_15m = data.tail(para2 + 2)
+    message = "\n*MACD update : *"
+    df_15m = cal_macd(df_15m, "15m", para1, para2, para3).fillna(0)
+    message = message + "\n*15 minute : *" + check_macd(df_15m, "15m")
     
-    filt=(data['Datetime'].dt.minute==15)
-    data=data.loc[filt]
-    df_60m=data.tail(para2+2)
-    # print(df_60m["60m_Close"])
-    df_60m=cal_macd(df_60m,"60m",para1,para2,para3).fillna(0)
-    message=message+"\n*60 minute : *"+check_macd(df_60m,"60m")
+    # Process 60-minute interval data
+    filt = (data['Datetime'].dt.minute == 15)
+    data = data.loc[filt]
+    df_60m = data.tail(para2 + 2)
+    df_60m = cal_macd(df_60m, "60m", para1, para2, para3).fillna(0)
+    message = message + "\n*60 minute : *" + check_macd(df_60m, "60m")
     
-    filt=(data['Datetime'].dt.hour==9)
-    df_1d=data.loc[filt].tail(para2+2)
-    # print(df_1d["1d_Close"])
-    df_1d=cal_macd(df_1d,"1d",para1,para2,para3).fillna(0)
-    message=message+"\n*Daily : *"+check_macd(df_1d,"1d")
+    # Process daily interval data
+    filt = (data['Datetime'].dt.hour == 9)
+    df_1d = data.loc[filt].tail(para2 + 2)
+    df_1d = cal_macd(df_1d, "1d", para1, para2, para3).fillna(0)
+    message = message + "\n*Daily : *" + check_macd(df_1d, "1d")
     
+    # If no updates, set message to empty string
     if message == "\n*MACD update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
-        # message = "\nNo ADX update!"
-        message=""
+        message = ""
     
-    return(message)
+    return message
 
-def cal_dm(df,n):
+def cal_dm(df, n):
+    # Calculate upward and downward movements
     up_move = df["High"] - df["High"].shift(1)
     down_move = df["Low"].shift(1) - df["Low"]
+    # Determine +DM and -DM
     df['+DM'] = np.where((up_move > down_move) & (up_move > 0), up_move, 0)
     df['-DM'] = np.where((down_move > up_move) & (down_move > 0), down_move, 0)
+    # Smooth +DM and -DM using exponential moving average
     df['+DM_smooth'] = df["+DM"].ewm(span=n, adjust=False).mean()
     df['-DM_smooth'] = df["-DM"].ewm(span=n, adjust=False).mean()
-    df = cal_index(df,n)
+    # Calculate DI and ADX
+    df = cal_index(df, n)
     return df
 
 def cal_tr(df, n):
+    # Calculate True Range (TR)
     df['TR'] = np.maximum(df["High"] - df["Low"], 
                       np.maximum(abs(df["High"] - df["Close"].shift(1)), 
                                  abs(df["Low"] - df["Close"].shift(1))))
+    # Calculate Average True Range (ATR)
     df['ATR'] = df["TR"].ewm(span=n, adjust=False).mean()
-    df = cal_dm(df,n)
+    # Calculate DM
+    df = cal_dm(df, n)
     return df
 
-def cal_index(df,n):
+def cal_index(df, n):
+    # Calculate +DI and -DI
     df['+DI'] = (df['+DM_smooth'] / df['ATR']) * 100
     df['-DI'] = (df['-DM_smooth'] / df['ATR']) * 100
+    # Calculate DX
     df['DX'] = abs(df['+DI'] - df['-DI']) / (df['+DI'] + df['-DI']) * 100
+    # Calculate ADX
     df['ADX'] = df['DX'].rolling(window=n).mean()
-    return df[['Datetime','+DI','-DI','ADX']]
-
+    return df[['Datetime', '+DI', '-DI', 'ADX']]
 
 def cal_adx(df, time, n=14):
-    df=df.copy()
-    df.rename(columns={f'{time}_High': 'High', f'{time}_Low': 'Low', f'{time}_Close':'Close'}, inplace=True)
-    df=df[['Datetime','High','Low','Close']]
+    df = df.copy()
+    # Rename columns for High, Low, and Close prices
+    df.rename(columns={f'{time}_High': 'High', f'{time}_Low': 'Low', f'{time}_Close': 'Close'}, inplace=True)
+    # Select relevant columns
+    df = df[['Datetime', 'High', 'Low', 'Close']]
+    # Calculate TR, DM, DI, and ADX
     df = cal_tr(df, n)
+    # Replace infinite values with NaN and drop rows with NaN values in ADX, +DI, and -DI columns
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    df.dropna(subset=['ADX','+DI','-DI'], how='all', inplace=True) 
+    df.dropna(subset=['ADX', '+DI', '-DI'], how='all', inplace=True)
+    # Fill NaN values with None
     df = df.fillna(value=np.nan).replace({np.nan: None})
-    df.rename(columns={'ADX':f'ADX_{time}','+DI':f'+DI_{time}','-DI':f'-DI_{time}'},inplace=True)
+    # Rename columns for ADX, +DI, and -DI
+    df.rename(columns={'ADX': f'ADX_{time}', '+DI': f'+DI_{time}', '-DI': f'-DI_{time}'}, inplace=True)
     return df
 
-def check_adx(df,time):
-    df.rename(columns={f'ADX_{time}':'ADX',f'+DI_{time}':'+DI',f'-DI_{time}':'-DI'},inplace=True)
+def check_adx(df, time):
+    # Rename columns for easier access
+    df.rename(columns={f'ADX_{time}': 'ADX', f'+DI_{time}': '+DI', f'-DI_{time}': '-DI'}, inplace=True)
+    # Get current ADX, +DI, and -DI values, and previous +DI and -DI values
     cur_adx = df['ADX'].iloc[-1]
     pre_pdi = df['+DI'].iloc[-2]
     cur_pdi = df['+DI'].iloc[-1]
     pre_mdi = df['-DI'].iloc[-2]
     cur_mdi = df['-DI'].iloc[-1]
 
-    # print("-----------------")
-    # print(cur_adx)
-    # print(pre_pdi)
-    # print(cur_pdi)
-    # print(pre_mdi)
-    # print(cur_mdi)
-
+    # Check for ADX signals
     if cur_adx > 25:
         if cur_pdi > cur_mdi and pre_pdi <= pre_mdi:
             return "ADX signals uptrend"
         if cur_pdi < cur_mdi and pre_pdi >= pre_mdi:
-            return "ADX signals downtrend"    
+            return "ADX signals downtrend"
     return "No update"
 
 def alert_adx(data, period=14):
     message = "\n*ADX update : *"
     
+    # Process 15-minute interval data
     data_15 = data.tail(2 * period + 2)
-    data_15=cal_adx(data_15, '15m', period).fillna(0)
-    message += "\n*15 minute : *"+check_adx(data_15, '15m')
+    data_15 = cal_adx(data_15, '15m', period).fillna(0)
+    message += "\n*15 minute : *" + check_adx(data_15, '15m')
     
+    # Process 60-minute interval data
     filt_60 = (data['Datetime'].dt.minute == 15)
-    data=data.loc[filt_60]
+    data = data.loc[filt_60]
     data_60 = data.tail(2 * period + 2)
-    data_60=cal_adx(data_60, '60m', period).fillna(0)
-    message += "\n*60 minute : *"+check_adx(data_60, '60m')
+    data_60 = cal_adx(data_60, '60m', period).fillna(0)
+    message += "\n*60 minute : *" + check_adx(data_60, '60m')
     
-    
+    # Process daily interval data
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(2 * period + 2)
-    data_daily=cal_adx(data_daily, '1d', period).fillna(0)
-    message += "\n*Daily : *"+check_adx(data_daily, '1d')
+    data_daily = cal_adx(data_daily, '1d', period).fillna(0)
+    message += "\n*Daily : *" + check_adx(data_daily, '1d')
     
+    # If no updates, set message to empty string
     if message == "\n*ADX update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
-        # message = "\nNo ADX update!"
-        message=""
+        message = ""
     
-    return(message)
+    return message
 
-def cal_bb(df,time,n=20):
-    df=df.copy()
+def cal_bb(df, time, n=20):
+    df = df.copy()
+    # Calculate Simple Moving Average (SMA) and Standard Deviation (SD) over the window n
     df['SMA_20'] = df[f'{time}_Close'].rolling(window=n).mean()
     df['SD_20'] = df[f'{time}_Close'].rolling(window=n).std()
-    df['BB_up'] = df['SMA_20']+2*df['SD_20']
-    df['BB_low'] = df['SMA_20']-2*df['SD_20']
-    df.rename(columns={'SMA_20':f'SMA_20_{time}','BB_up':f'BB_up_{time}', 'BB_low':f'BB_low_{time}'},inplace=True)
-    df=df[['Datetime',f'SMA_20_{time}',f'BB_up_{time}',f'BB_low_{time}',f'{time}_Close']]
+    # Calculate the upper and lower Bollinger Bands
+    df['BB_up'] = df['SMA_20'] + 2 * df['SD_20']
+    df['BB_low'] = df['SMA_20'] - 2 * df['SD_20']
+    # Rename columns for clarity
+    df.rename(columns={'SMA_20': f'SMA_20_{time}', 'BB_up': f'BB_up_{time}', 'BB_low': f'BB_low_{time}'}, inplace=True)
+    # Select relevant columns
+    df = df[['Datetime', f'SMA_20_{time}', f'BB_up_{time}', f'BB_low_{time}', f'{time}_Close']]
+    # Replace infinite values with NaN and drop rows with NaN values in SMA, BB_up, and BB_low columns
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    df.dropna(subset=[f'SMA_20_{time}',f'BB_up_{time}',f'BB_low_{time}'], how='all', inplace=True)
+    df.dropna(subset=[f'SMA_20_{time}', f'BB_up_{time}', f'BB_low_{time}'], how='all', inplace=True)
+    # Fill NaN values with None
     df = df.fillna(value=np.nan).replace({np.nan: None})
     return df
 
-def check_bb(df,time):
-    df.rename(columns={f'SMA_20_{time}':'SMA_20',f'BB_up_{time}':'BB_up', f'BB_low_{time}':'BB_low', f'{time}_Close':'Close'},inplace=True)
-    cur=df['Close'].iloc[-1]
-    cur_bb_up=df['BB_up'].iloc[-1]
-    cur_bb_low=df['BB_low'].iloc[-1]
+def check_bb(df, time):
+    # Rename columns for easier access
+    df.rename(columns={f'SMA_20_{time}': 'SMA_20', f'BB_up_{time}': 'BB_up', f'BB_low_{time}': 'BB_low', f'{time}_Close': 'Close'}, inplace=True)
+    # Get current close price, upper Bollinger Band, and lower Bollinger Band
+    cur = df['Close'].iloc[-1]
+    cur_bb_up = df['BB_up'].iloc[-1]
+    cur_bb_low = df['BB_low'].iloc[-1]
+    # Print debug information (commented out)
     # print("--------------")
     # print(cur)
     # print(cur_bb_low)
     # print(cur_bb_up)
+    # Drop columns no longer needed
     df.drop(columns=['SMA_20', 'BB_up', 'BB_low'], inplace=True)
-    if(cur>cur_bb_up):
-        return("Price crosses Upper band")
-    if(cur<cur_bb_low):
-        return("Price crosses Lower band")
-    return("No update")
+    # Check for price crossing above upper band or below lower band
+    if cur > cur_bb_up:
+        return "Price crosses Upper band"
+    if cur < cur_bb_low:
+        return "Price crosses Lower band"
+    return "No update"
 
-def alert_bb(data,n=20):
+def alert_bb(data, n=20):
     message = "\n*BB update : *"
     
+    # Process 15-minute interval data
     data_15 = data.tail(n + 2)
-    data_15=cal_bb(data_15, '15m', n).fillna(0)
-    message += "\n*15 minute : *"+check_bb(data_15, '15m')
+    data_15 = cal_bb(data_15, '15m', n).fillna(0)
+    message += "\n*15 minute : *" + check_bb(data_15, '15m')
     
+    # Process 60-minute interval data
     filt_60 = (data['Datetime'].dt.minute == 15)
-    data=data.loc[filt_60]
+    data = data.loc[filt_60]
     data_60 = data.tail(n + 2)
-    data_60=cal_bb(data_60, '60m', n).fillna(0)
-    message += "\n*60 minute : *"+check_bb(data_60, '60m')
+    data_60 = cal_bb(data_60, '60m', n).fillna(0)
+    message += "\n*60 minute : *" + check_bb(data_60, '60m')
     
+    # Process daily interval data
     filt_daily = (data['Datetime'].dt.hour == 9)
-    data_daily = data.loc[filt_daily].tail(n +2)
-    data_daily=cal_bb(data_daily, '1d', n).fillna(0)
-    message += f"\n*Daily : *"+check_bb(data_daily, '1d')
+    data_daily = data.loc[filt_daily].tail(n + 2)
+    data_daily = cal_bb(data_daily, '1d', n).fillna(0)
+    message += "\n*Daily : *" + check_bb(data_daily, '1d')
     
+    # If no updates, set message to empty string
     if message == "\n*BB update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
         # message = "\nNo BB update!"
-        message=""
+        message = ""
     
-    return(message)
-    
+    return message
+
 def cal_ema(df, time, period1=20, period2=50, period3=100, period4=200):
-    df=df.copy()
+    df = df.copy()
+    # Calculate Exponential Moving Averages (EMAs) for different periods
     df[f'{time}_EMA_20'] = df[f'{time}_Close'].ewm(span=period1, adjust=False).mean()
     df[f'{time}_EMA_50'] = df[f'{time}_Close'].ewm(span=period2, adjust=False).mean()
     df[f'{time}_EMA_100'] = df[f'{time}_Close'].ewm(span=period3, adjust=False).mean()
     df[f'{time}_EMA_200'] = df[f'{time}_Close'].ewm(span=period4, adjust=False).mean()
-    df=df[['Datetime', f'{time}_EMA_20', f'{time}_EMA_50', f'{time}_EMA_100', f'{time}_EMA_200']]
+    # Select relevant columns
+    df = df[['Datetime', f'{time}_EMA_20', f'{time}_EMA_50', f'{time}_EMA_100', f'{time}_EMA_200']]
+    # Replace infinite values with NaN and drop rows with NaN values in EMA_20 column
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
     df.dropna(subset=[f'{time}_EMA_20'], inplace=True)
+    # Fill NaN values with None
     df = df.fillna(value=np.nan).replace({np.nan: None})
     return df
 
-def check_ema(df,time):
-    df.rename(columns={f'{time}_EMA_20':'EMA_20', f'{time}_EMA_50':'EMA_50', f'{time}_EMA_100':'EMA_100', f'{time}_EMA_200':'EMA_200'},inplace=True)
-    pre_20=df['EMA_20'].iloc[-2]
-    cur_20=df['EMA_20'].iloc[-1]
-    pre_50=df['EMA_50'].iloc[-2]
-    cur_50=df['EMA_50'].iloc[-1]
-    pre_100=df['EMA_100'].iloc[-2]
-    cur_100=df['EMA_100'].iloc[-1]
-    pre_200=df['EMA_200'].iloc[-2]
-    cur_200=df['EMA_200'].iloc[-1]
-    message=""
-    if(pre_20<pre_50 and cur_20>cur_50):
-        message+="\n\t20 day EMA crosses above 50 day EMA"
-    if(pre_20<pre_100 and cur_20>cur_100):
-        message+="\n\t20 day EMA crosses above 100 day EMA"
-    if(pre_20<pre_200 and cur_20>cur_200):
-        message+="\n\t20 day EMA crosses above 200 day EMA"
-    if(pre_50<pre_100 and cur_50>cur_100):
-        message+="\n\t50 day EMA crosses above 100 day EMA" 
-    if(pre_50<pre_200 and cur_50>cur_200):
-        message+="\n\t50 day EMA crosses above 200 day EMA"
-    if(pre_100<pre_100 and cur_100>cur_200):
-        message+="\n\t100 day EMA crosses above 200 day EMA"
-    if(pre_20>pre_50 and cur_20<cur_50):
-        message+="\n\t20 day EMA crosses below 50 day EMA"
-    if(pre_20>pre_100 and cur_20<cur_100):
-        message+="\n\t20 day EMA crosses below 100 day EMA"
-    if(pre_20>pre_200 and cur_20<cur_200):
-        message+="\n\t20 day EMA crosses below 200 day EMA"
-    if(pre_50>pre_100 and cur_50<cur_100):
-        message+="\n\t50 day EMA crosses below 100 day EMA" 
-    if(pre_50>pre_200 and cur_50<cur_200):
-        message+="\n\t50 day EMA crosses below 200 day EMA"
-    if(pre_100>pre_100 and cur_100<cur_200):
-        message+="\n\t100 day EMA crosses below 200 day EMA"
-    if message=="":
-        return("No update")
+def check_ema(df, time):
+    # Rename columns for easier access
+    df.rename(columns={f'{time}_EMA_20': 'EMA_20', f'{time}_EMA_50': 'EMA_50', f'{time}_EMA_100': 'EMA_100', f'{time}_EMA_200': 'EMA_200'}, inplace=True)
+    # Get previous and current values of EMAs
+    pre_20 = df['EMA_20'].iloc[-2]
+    cur_20 = df['EMA_20'].iloc[-1]
+    pre_50 = df['EMA_50'].iloc[-2]
+    cur_50 = df['EMA_50'].iloc[-1]
+    pre_100 = df['EMA_100'].iloc[-2]
+    cur_100 = df['EMA_100'].iloc[-1]
+    pre_200 = df['EMA_200'].iloc[-2]
+    cur_200 = df['EMA_200'].iloc[-1]
+    message = ""
+    # Check for crossovers and add appropriate messages
+    if pre_20 < pre_50 and cur_20 > cur_50:
+        message += "\n\t20 day EMA crosses above 50 day EMA"
+    if pre_20 < pre_100 and cur_20 > cur_100:
+        message += "\n\t20 day EMA crosses above 100 day EMA"
+    if pre_20 < pre_200 and cur_20 > cur_200:
+        message += "\n\t20 day EMA crosses above 200 day EMA"
+    if pre_50 < pre_100 and cur_50 > cur_100:
+        message += "\n\t50 day EMA crosses above 100 day EMA"
+    if pre_50 < pre_200 and cur_50 > cur_200:
+        message += "\n\t50 day EMA crosses above 200 day EMA"
+    if pre_100 < pre_200 and cur_100 > cur_200:
+        message += "\n\t100 day EMA crosses above 200 day EMA"
+    if pre_20 > pre_50 and cur_20 < cur_50:
+        message += "\n\t20 day EMA crosses below 50 day EMA"
+    if pre_20 > pre_100 and cur_20 < cur_100:
+        message += "\n\t20 day EMA crosses below 100 day EMA"
+    if pre_20 > pre_200 and cur_20 < cur_200:
+        message += "\n\t20 day EMA crosses below 200 day EMA"
+    if pre_50 > pre_100 and cur_50 < cur_100:
+        message += "\n\t50 day EMA crosses below 100 day EMA"
+    if pre_50 > pre_200 and cur_50 < cur_200:
+        message += "\n\t50 day EMA crosses below 200 day EMA"
+    if pre_100 > pre_200 and cur_100 < cur_200:
+        message += "\n\t100 day EMA crosses below 200 day EMA"
+    # Return "No update" if no crossovers are detected
+    if message == "":
+        return "No update"
     else:
-        return(message)
+        return message
 
-def alert_ema(data,para1=20,para2=50,para3=100,para4=200):
+def alert_ema(data, para1=20, para2=50, para3=100, para4=200):
     message = "\n*EMA update : *"
     
+    # Process 15-minute interval data
     data_15 = data.tail(para4 + 2)
-    data_15=cal_ema(data_15, '15m',para1,para2,para3,para4)
-    message += "\n*15 minute : *"+check_ema(data_15, '15m')
+    data_15 = cal_ema(data_15, '15m', para1, para2, para3, para4)
+    message += "\n*15 minute : *" + check_ema(data_15, '15m')
     
+    # Process 60-minute interval data
     filt_60 = (data['Datetime'].dt.minute == 15)
-    data=data.loc[filt_60]
-    data_60 = data.tail(para4+2)
-    data_60=cal_ema(data_60, '60m',para1,para2,para3,para4)
-    message += "\n*60 minute : * "+check_ema(data_60, '60m')
+    data = data.loc[filt_60]
+    data_60 = data.tail(para4 + 2)
+    data_60 = cal_ema(data_60, '60m', para1, para2, para3, para4)
+    message += "\n*60 minute : *" + check_ema(data_60, '60m')
     
+    # Process daily interval data
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(para4 + 2)
-    data_daily=cal_ema(data_daily, '1d',para1,para2,para3,para4)
-    message += f"\n*Daily : *"+check_ema(data_daily, '1d')
+    data_daily = cal_ema(data_daily, '1d', para1, para2, para3, para4)
+    message += f"\n*Daily : *" + check_ema(data_daily, '1d')
     
+    # If no updates, set message to empty string
     if message == "\n*EMA update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
         # message = "\nNo EMA Update!"
-        message=""
+        message = ""
     
-    return(message)
+    return message
 
 def cal_sma(df, time, period1=20, period2=50, period3=100, period4=200):
-    df=df.copy()
+    df = df.copy()
+    # Calculate Simple Moving Averages (SMAs) for different periods
     df[f'{time}_SMA_20'] = df[f'{time}_Close'].rolling(window=period1).mean()
     df[f'{time}_SMA_50'] = df[f'{time}_Close'].rolling(window=period2).mean()
     df[f'{time}_SMA_100'] = df[f'{time}_Close'].rolling(window=period3).mean()
     df[f'{time}_SMA_200'] = df[f'{time}_Close'].rolling(window=period4).mean()
-    df=df[['Datetime', f'{time}_SMA_20', f'{time}_SMA_50', f'{time}_SMA_100', f'{time}_SMA_200']]
+    # Select relevant columns
+    df = df[['Datetime', f'{time}_SMA_20', f'{time}_SMA_50', f'{time}_SMA_100', f'{time}_SMA_200']]
+    # Replace infinite values with NaN and drop rows with NaN values in SMA_20 column
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
     df.dropna(subset=[f'{time}_SMA_20'], inplace=True)
+    # Fill NaN values with None
     df = df.fillna(value=np.nan).replace({np.nan: None})
     return df
     
-def check_sma(df,time):
-    df.rename(columns={f'{time}_SMA_20':'SMA_20', f'{time}_SMA_50':'SMA_50', f'{time}_SMA_100':'SMA_100', f'{time}_SMA_200':'SMA_200'},inplace=True)
-    pre_20=df['SMA_20'].iloc[-2]
-    cur_20=df['SMA_20'].iloc[-1]
-    pre_50=df['SMA_50'].iloc[-2]
-    cur_50=df['SMA_50'].iloc[-1]
-    pre_100=df['SMA_100'].iloc[-2]
-    cur_100=df['SMA_100'].iloc[-1]
-    pre_200=df['SMA_200'].iloc[-2]
-    cur_200=df['SMA_200'].iloc[-1]
+def check_sma(df, time):
+    # Rename columns for easier access
+    df.rename(columns={f'{time}_SMA_20': 'SMA_20', f'{time}_SMA_50': 'SMA_50', f'{time}_SMA_100': 'SMA_100', f'{time}_SMA_200': 'SMA_200'}, inplace=True)
+    # Get previous and current values of SMAs
+    pre_20 = df['SMA_20'].iloc[-2]
+    cur_20 = df['SMA_20'].iloc[-1]
+    pre_50 = df['SMA_50'].iloc[-2]
+    cur_50 = df['SMA_50'].iloc[-1]
+    pre_100 = df['SMA_100'].iloc[-2]
+    cur_100 = df['SMA_100'].iloc[-1]
+    pre_200 = df['SMA_200'].iloc[-2]
+    cur_200 = df['SMA_200'].iloc[-1]
+    # Drop unnecessary columns
     df.drop(columns=['SMA_20', 'SMA_50', 'SMA_100', 'SMA_200'], inplace=True)
-    message=""
-    if(pre_20<pre_50 and cur_20>cur_50):
-        message+="\n\t20 day SMA crosses above 50 day SMA"
-    if(pre_20<pre_100 and cur_20>cur_100):
-        message+="\n\t20 day SMA crosses above 100 day SMA"
-    if(pre_20<pre_200 and cur_20>cur_200):
-        message+="\n\t20 day SMA crosses above 200 day SMA"
-    if(pre_50<pre_100 and cur_50>cur_100):
-        message+="\n\t50 day SMA crosses above 100 day SMA" 
-    if(pre_50<pre_200 and cur_50>cur_200):
-        message+="\n\t50 day SMA crosses above 200 day SMA"
-    if(pre_100<pre_100 and cur_100>cur_200):
-        message+="\n\t100 day SMA crosses above 200 day SMA"
-    if(pre_20>pre_50 and cur_20<cur_50):
-        message+="\n\t20 day SMA crosses below 50 day SMA"
-    if(pre_20>pre_100 and cur_20<cur_100):
-        message+="\n\t20 day SMA crosses below 100 day SMA"
-    if(pre_20>pre_200 and cur_20<cur_200):
-        message+="\n\t20 day SMA crosses below 200 day SMA"
-    if(pre_50>pre_100 and cur_50<cur_100):
-        message+="\n\t50 day SMA crosses below 100 day SMA" 
-    if(pre_50>pre_200 and cur_50<cur_200):
-        message+="\n\t50 day SMA crosses below 200 day SMA"
-    if(pre_100>pre_100 and cur_100<cur_200):
-        message+="\n\t100 day SMA crosses below 200 day SMA"
-    if message=="":
-        return("No update")
+    message = ""
+    # Check for crossovers and add appropriate messages
+    if pre_20 < pre_50 and cur_20 > cur_50:
+        message += "\n\t20 day SMA crosses above 50 day SMA"
+    if pre_20 < pre_100 and cur_20 > cur_100:
+        message += "\n\t20 day SMA crosses above 100 day SMA"
+    if pre_20 < pre_200 and cur_20 > cur_200:
+        message += "\n\t20 day SMA crosses above 200 day SMA"
+    if pre_50 < pre_100 and cur_50 > cur_100:
+        message += "\n\t50 day SMA crosses above 100 day SMA"
+    if pre_50 < pre_200 and cur_50 > cur_200:
+        message += "\n\t50 day SMA crosses above 200 day SMA"
+    if pre_100 < pre_200 and cur_100 > cur_200:
+        message += "\n\t100 day SMA crosses above 200 day SMA"
+    if pre_20 > pre_50 and cur_20 < cur_50:
+        message += "\n\t20 day SMA crosses below 50 day SMA"
+    if pre_20 > pre_100 and cur_20 < cur_100:
+        message += "\n\t20 day SMA crosses below 100 day SMA"
+    if pre_20 > pre_200 and cur_20 < cur_200:
+        message += "\n\t20 day SMA crosses below 200 day SMA"
+    if pre_50 > pre_100 and cur_50 < cur_100:
+        message += "\n\t50 day SMA crosses below 100 day SMA"
+    if pre_50 > pre_200 and cur_50 < cur_200:
+        message += "\n\t50 day SMA crosses below 200 day SMA"
+    if pre_100 > pre_200 and cur_100 < cur_200:
+        message += "\n\t100 day SMA crosses below 200 day SMA"
+    # Return "No update" if no crossovers are detected
+    if message == "":
+        return "No update"
     else:
-        return(message)
+        return message
     
-def alert_sma(data,para1=20,para2=50,para3=100,para4=200):
+def alert_sma(data, para1=20, para2=50, para3=100, para4=200):
     message = "\n*SMA update : *"
     
+    # Process 15-minute interval data
     data_15 = data.tail(para4 + 2)
-    data_15=cal_sma(data_15, '15m',para1,para2,para3,para4).fillna(0)
-    message += "\n*15 minute : *"+check_sma(data_15, '15m')
+    data_15 = cal_sma(data_15, '15m', para1, para2, para3, para4).fillna(0)
+    message += "\n*15 minute : *" + check_sma(data_15, '15m')
     
+    # Process 60-minute interval data
     filt_60 = (data['Datetime'].dt.minute == 15)
-    data=data.loc[filt_60]
+    data = data.loc[filt_60]
     data_60 = data.tail(para4 + 2)
-    data_60=cal_sma(data_60, '60m',para1,para2,para3,para4).fillna(0)
-    message += "\n*60 minute : *"+check_sma(data_60, '60m')
+    data_60 = cal_sma(data_60, '60m', para1, para2, para3, para4).fillna(0)
+    message += "\n*60 minute : *" + check_sma(data_60, '60m')
     
+    # Process daily interval data
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(para4 + 2)
-    data_daily=cal_sma(data_daily, '1d',para1,para2,para3,para4).fillna(0)
-    message += f"\n*Daily : *"+check_sma(data_daily, '1d')
+    data_daily = cal_sma(data_daily, '1d', para1, para2, para3, para4).fillna(0)
+    message += f"\n*Daily : *" + check_sma(data_daily, '1d')
     
+    # If no updates, set message to empty string
     if message == "\n*SMA update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
         # message = "\nNo SMA update!"
-        message=""
+        message = ""
     
-    return(message)
+    return message
 
-def cal_kc(df,time,n=20):
-    df=df.copy()
+def cal_kc(df, time, n=20):
+    df = df.copy()
+    # Calculate True Range (TR)
     high = df[f'{time}_High']
     low = df[f'{time}_Low']
     close = df[f'{time}_Close']
-    df['TR'] = np.maximum(high-low, np.maximum(abs(high-close.shift(1)), abs(low-close.shift(1))))
+    df['TR'] = np.maximum(high - low, np.maximum(abs(high - close.shift(1)), abs(low - close.shift(1))))
+    # Calculate Average True Range (ATR)
     df['ATR'] = df['TR'].rolling(window=n).mean()
-    df['EMA_20']=close.ewm(span=n,adjust=False).mean()
-    df[f'{time}_KC_up']=df['EMA_20']+df['ATR']*2
-    df[f'{time}_KC_low']=df['EMA_20']-df['ATR']*2
-    df.rename(columns={'EMA_20':f"{time}_EMA_20"},inplace=True)
-    df=df[['Datetime',f'{time}_EMA_20',f'{time}_KC_up',f'{time}_KC_low',f'{time}_Close']]
+    # Calculate Exponential Moving Average (EMA)
+    df['EMA_20'] = close.ewm(span=n, adjust=False).mean()
+    # Calculate Keltner Channel (KC) upper and lower bands
+    df[f'{time}_KC_up'] = df['EMA_20'] + df['ATR'] * 2
+    df[f'{time}_KC_low'] = df['EMA_20'] - df['ATR'] * 2
+    df.rename(columns={'EMA_20': f"{time}_EMA_20"}, inplace=True)
+    # Select relevant columns
+    df = df[['Datetime', f'{time}_EMA_20', f'{time}_KC_up', f'{time}_KC_low', f'{time}_Close']]
+    # Replace infinite values with NaN and drop rows with NaN values in necessary columns
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    df.dropna(subset=[f'{time}_EMA_20',f'{time}_KC_up',f'{time}_KC_low'], inplace=True)
+    df.dropna(subset=[f'{time}_EMA_20', f'{time}_KC_up', f'{time}_KC_low'], inplace=True)
+    # Fill NaN values with None
     df = df.fillna(value=np.nan).replace({np.nan: None})
     return df
 
 def check_kc(df, time):
-    df.rename(columns={f'{time}_Close':'Close', f'{time}_EMA_20':'EMA_20', f'{time}_KC_up':'KC_up', f'{time}_KC_low':'KC_low'}, inplace=True)
+    # Rename columns for easier access
+    df.rename(columns={f'{time}_Close': 'Close', f'{time}_EMA_20': 'EMA_20', f'{time}_KC_up': 'KC_up', f'{time}_KC_low': 'KC_low'}, inplace=True)
+    # Get current values of Close, KC_up, and KC_low
     cur_price = df['Close'].iloc[-1]
     cur_kc_up = df['KC_up'].iloc[-1]
     cur_kc_low = df['KC_low'].iloc[-1]
-    
+    # Check for price crossing upper or lower Keltner Channel
     if cur_price > cur_kc_up:
         return "Price crosses Upper Keltner Channel"
     if cur_price < cur_kc_low:
         return "Price crosses Lower Keltner Channel"
     return "No update"
 
-def alert_kc(data,para1=20):
+def alert_kc(data, para1=20):
     message = "\n*KC update : *"
     
+    # Process 15-minute interval data
     data_15 = data.tail(para1 + 2)
-    data_15=cal_kc(data_15, '15m',para1).fillna(0)
-    message += "\n*15 minute : *"+check_kc(data_15, '15m')
+    data_15 = cal_kc(data_15, '15m', para1).fillna(0)
+    message += "\n*15 minute : *" + check_kc(data_15, '15m')
     
+    # Process 60-minute interval data
     filt_60 = (data['Datetime'].dt.minute == 15)
-    data=data.loc[filt_60]
+    data = data.loc[filt_60]
     data_60 = data.tail(para1 + 2)
-    data_60=cal_kc(data_60, '60m',para1).fillna(0)
-    message += "\n*60 minute : *"+check_kc(data_60, '60m')
+    data_60 = cal_kc(data_60, '60m', para1).fillna(0)
+    message += "\n*60 minute : *" + check_kc(data_60, '60m')
     
+    # Process daily interval data
     filt_daily = (data['Datetime'].dt.hour == 9)
     data_daily = data.loc[filt_daily].tail(para1 + 2)
-    data_daily=cal_kc(data_daily, '1d',para1).fillna(0)
-    message += f"\n*Daily : *"+check_kc(data_daily, '1d')
+    data_daily = cal_kc(data_daily, '1d', para1).fillna(0)
+    message += f"\n*Daily : *" + check_kc(data_daily, '1d')
     
+    # If no updates, set message to empty string
     if message == "\n*KC update : *\n*15 minute : *No update\n*60 minute : *No update\n*Daily : *No update":
         # message = "\nNo KC update!"
         message = ""
+    
+    return message
 
-    return(message)
     
 # while True:
     # send_telegram_message("HI")

@@ -121,8 +121,6 @@ class FetchDataView(APIView):
         response = fetch_data(ticker)
         return Response({"status": True, "data": response}, status=status.HTTP_200_OK)
 
-#this api is currently sending alerts on default parameters
-#it takes user, strategy_name, para_1 as compulsory inputs but only uses the user parameter for filtration. the rest 2 are compulsory because acc to Strategy model those 2 cannot be left blank  
 class StrategyAlertView(APIView):
     def post(self, request):
         serializer = IndicatorSerializer(data=request.data)
@@ -166,8 +164,12 @@ class StrategyAlertView(APIView):
                 if "kc" in strategy_list:
                     message+="\n"+alert_kc(data=sql_df)
                     alert+="KC "
-
-                if message=="":
+                # for i in strategy_list:
+                    # if(i.upper() in message):
+                        # continue
+                    # message=""
+                    # break
+                if message==f"*{stock} Indicators Update*": #"":
                     return Response({"message": "No alert for now!", "data": strategy_list}, status=status.HTTP_200_OK)
                 else:
                     send_email(message_text=message)
