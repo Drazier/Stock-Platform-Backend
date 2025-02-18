@@ -1,0 +1,377 @@
+2024-07-12 12:18:18,638 - 
+
+DATABASE : Demo
+
+2024-07-12 12:18:19,989 - Fetching data for acc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:19,989 - Time taken for acc: 1.3510594367980957 seconds
+2024-07-12 12:18:20,557 - Fetching data for acl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:20,557 - Time taken for acl: 0.5685713291168213 seconds
+2024-07-12 12:18:21,391 - Fetching data for adanient is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:21,392 - Time taken for adanient: 0.8341901302337646 seconds
+2024-07-12 12:18:21,993 - Fetching data for adaniports is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:21,994 - Time taken for adaniports: 0.6014828681945801 seconds
+2024-07-12 12:18:22,423 - Fetching data for adanipower is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:22,424 - Time taken for adanipower: 0.42891693115234375 seconds
+2024-07-12 12:18:22,871 - Fetching data for alkem is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:22,872 - Time taken for alkem: 0.4476487636566162 seconds
+2024-07-12 12:18:23,305 - Fetching data for ^NSEI is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:23,305 - Time taken for ^NSEI: 0.4334220886230469 seconds
+2024-07-12 12:18:23,786 - Fetching data for axisbank is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:23,786 - Time taken for axisbank: 0.47934985160827637 seconds
+2024-07-12 12:18:24,326 - Fetching data for bajaj-auto is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:24,326 - Time taken for bajaj-auto: 0.5399348735809326 seconds
+2024-07-12 12:18:24,912 - Fetching data for bajajfinsv is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:24,912 - Time taken for bajajfinsv: 0.5854027271270752 seconds
+2024-07-12 12:18:25,527 - Fetching data for bajfinance is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:25,527 - Time taken for bajfinance: 0.6144089698791504 seconds
+2024-07-12 12:18:26,096 - Fetching data for biocon is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:26,096 - Time taken for biocon: 0.5684685707092285 seconds
+2024-07-12 12:18:26,736 - Fetching data for boschltd is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:26,736 - Time taken for boschltd: 0.6395270824432373 seconds
+2024-07-12 12:18:27,280 - Fetching data for bpcl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:27,281 - Time taken for bpcl: 0.5451765060424805 seconds
+2024-07-12 12:18:27,959 - Fetching data for britannia is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:27,959 - Time taken for britannia: 0.6772093772888184 seconds
+2024-07-12 12:18:28,939 - Fetching data for canbk is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:28,939 - Time taken for canbk: 0.9801039695739746 seconds
+2024-07-12 12:18:29,825 - Fetching data for cgpower is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:29,825 - Time taken for cgpower: 0.885451078414917 seconds
+2024-07-12 12:18:30,714 - Fetching data for cholafin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:30,714 - Time taken for cholafin: 0.8894670009613037 seconds
+2024-07-12 12:18:31,647 - Fetching data for cipla is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:31,647 - Time taken for cipla: 0.9169304370880127 seconds
+2024-07-12 12:18:32,484 - Fetching data for coalindia is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:32,484 - Time taken for coalindia: 0.8375446796417236 seconds
+2024-07-12 12:18:33,545 - Fetching data for coforge is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:33,545 - Time taken for coforge: 1.0607779026031494 seconds
+2024-07-12 12:18:34,574 - Fetching data for colpal is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:34,574 - Time taken for colpal: 1.0287494659423828 seconds
+2024-07-12 12:18:35,433 - Fetching data for ltim is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:35,433 - Time taken for ltim: 0.8590562343597412 seconds
+2024-07-12 12:18:36,148 - Fetching data for ltts is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:36,148 - Time taken for ltts: 0.6989803314208984 seconds
+2024-07-12 12:18:37,028 - Fetching data for lupin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:37,028 - Time taken for lupin: 0.8805203437805176 seconds
+2024-07-12 12:18:37,796 - Fetching data for m&m is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:37,796 - Time taken for m&m: 0.7675762176513672 seconds
+2024-07-12 12:18:38,548 - Fetching data for prestige is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:38,548 - Time taken for prestige: 0.7522115707397461 seconds
+2024-07-12 12:18:39,282 - Fetching data for sbicard is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:39,282 - Time taken for sbicard: 0.7344295978546143 seconds
+2024-07-12 12:18:39,907 - Fetching data for sbilife is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:39,909 - Time taken for sbilife: 0.6269872188568115 seconds
+2024-07-12 12:18:40,706 - Fetching data for sbin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:40,706 - Time taken for sbin: 0.7962014675140381 seconds
+2024-07-12 12:18:41,317 - Fetching data for shreecem is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:41,317 - Time taken for shreecem: 0.6108386516571045 seconds
+2024-07-12 12:18:41,995 - Fetching data for muthootfin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:41,995 - Time taken for muthootfin: 0.6780099868774414 seconds
+2024-07-12 12:18:42,576 - Fetching data for titan is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:42,576 - Time taken for titan: 0.5812239646911621 seconds
+2024-07-12 12:18:43,202 - Fetching data for torntpharm is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:43,202 - Time taken for torntpharm: 0.6264066696166992 seconds
+2024-07-12 12:18:43,678 - Fetching data for abb is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:43,678 - Time taken for abb: 0.47516965866088867 seconds
+2024-07-12 12:18:44,421 - Fetching data for industower is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:44,429 - Time taken for industower: 0.7509829998016357 seconds
+2024-07-12 12:18:45,256 - Fetching data for voltas is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:45,256 - Time taken for voltas: 0.8271522521972656 seconds
+2024-07-12 12:18:45,837 - Fetching data for bhartiartl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:45,837 - Time taken for bhartiartl: 0.5812556743621826 seconds
+2024-07-12 12:18:46,701 - Fetching data for bhel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:46,701 - Time taken for bhel: 0.8642449378967285 seconds
+2024-07-12 12:18:47,455 - Fetching data for pnb is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:47,455 - Time taken for pnb: 0.7536242008209229 seconds
+2024-07-12 12:18:48,064 - Fetching data for policybzr is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:48,064 - Time taken for policybzr: 0.6091713905334473 seconds
+2024-07-12 12:18:48,638 - Fetching data for abfrl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:48,638 - Time taken for abfrl: 0.5740468502044678 seconds
+2024-07-12 12:18:49,322 - Fetching data for polycab is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:49,322 - Time taken for polycab: 0.6842906475067139 seconds
+2024-07-12 12:18:50,129 - Fetching data for shriramfin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:50,134 - Time taken for shriramfin: 0.8035933971405029 seconds
+2024-07-12 12:18:50,755 - Fetching data for siemens is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:50,755 - Time taken for siemens: 0.62117600440979 seconds
+2024-07-12 12:18:51,338 - Fetching data for sonacoms is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:51,338 - Time taken for sonacoms: 0.5818626880645752 seconds
+2024-07-12 12:18:52,129 - Fetching data for srf is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:52,138 - Time taken for srf: 0.7992730140686035 seconds
+2024-07-12 12:18:52,906 - Fetching data for sunpharma is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:52,906 - Time taken for sunpharma: 0.7676670551300049 seconds
+2024-07-12 12:18:53,693 - Fetching data for suntv is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:53,693 - Time taken for suntv: 0.7871155738830566 seconds
+2024-07-12 12:18:54,480 - Fetching data for syngene is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:54,480 - Time taken for syngene: 0.7711207866668701 seconds
+2024-07-12 12:18:55,252 - Fetching data for tatachem is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:55,252 - Time taken for tatachem: 0.7721257209777832 seconds
+2024-07-12 12:18:56,045 - Fetching data for tatacomm is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:56,045 - Time taken for tatacomm: 0.7927877902984619 seconds
+2024-07-12 12:18:56,697 - Fetching data for tataconsum is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:56,697 - Time taken for tataconsum: 0.6517813205718994 seconds
+2024-07-12 12:18:57,641 - Fetching data for tataelxsi is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:57,641 - Time taken for tataelxsi: 0.9449899196624756 seconds
+2024-07-12 12:18:58,569 - Fetching data for tatamotors is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:58,569 - Time taken for tatamotors: 0.9279763698577881 seconds
+2024-07-12 12:18:59,372 - Fetching data for tatamtrdvr is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:18:59,372 - Time taken for tatamtrdvr: 0.8021397590637207 seconds
+2024-07-12 12:19:00,160 - Fetching data for itc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:00,160 - Time taken for itc: 0.7887532711029053 seconds
+2024-07-12 12:19:00,986 - Fetching data for jindalstel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:00,986 - Time taken for jindalstel: 0.8261282444000244 seconds
+2024-07-12 12:19:01,892 - Fetching data for ramcocem is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:01,895 - Time taken for ramcocem: 0.9083724021911621 seconds
+2024-07-12 12:19:02,602 - Fetching data for recltd is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:02,602 - Time taken for recltd: 0.7069826126098633 seconds
+2024-07-12 12:19:03,562 - Fetching data for infy is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:03,562 - Time taken for infy: 0.9595949649810791 seconds
+2024-07-12 12:19:04,388 - Fetching data for ioc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:04,388 - Time taken for ioc: 0.8264753818511963 seconds
+2024-07-12 12:19:05,107 - Fetching data for tatapower is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:05,107 - Time taken for tatapower: 0.7189712524414062 seconds
+2024-07-12 12:19:05,893 - Fetching data for tatasteel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:05,893 - Time taken for tatasteel: 0.7818179130554199 seconds
+2024-07-12 12:19:06,698 - Fetching data for ipcalab is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:06,699 - Time taken for ipcalab: 0.8066921234130859 seconds
+2024-07-12 12:19:07,346 - Fetching data for irctc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:07,346 - Time taken for irctc: 0.6449599266052246 seconds
+2024-07-12 12:19:07,802 - Fetching data for ^NSEBANK is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:07,804 - Time taken for ^NSEBANK: 0.45822644233703613 seconds
+2024-07-12 12:19:08,641 - Fetching data for YESBANK is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:08,641 - Time taken for YESBANK: 0.8363151550292969 seconds
+2024-07-12 12:19:09,348 - Fetching data for ZYDUSLIFE is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:09,351 - Time taken for ZYDUSLIFE: 0.7100803852081299 seconds
+2024-07-12 12:19:10,110 - Fetching data for balkrisind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:10,110 - Time taken for balkrisind: 0.7578606605529785 seconds
+2024-07-12 12:19:10,859 - Fetching data for bankbaroda is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:10,866 - Time taken for bankbaroda: 0.7564620971679688 seconds
+2024-07-12 12:19:11,556 - Fetching data for bataindia is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:11,556 - Time taken for bataindia: 0.6902778148651123 seconds
+2024-07-12 12:19:12,239 - Fetching data for bdl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:12,239 - Time taken for bdl: 0.682448148727417 seconds
+2024-07-12 12:19:12,998 - Fetching data for bel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:12,998 - Time taken for bel: 0.7590885162353516 seconds
+2024-07-12 12:19:13,779 - Fetching data for bergepaint is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:13,779 - Time taken for bergepaint: 0.7807185649871826 seconds
+2024-07-12 12:19:14,390 - Fetching data for bharatforg is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:14,390 - Time taken for bharatforg: 0.6033294200897217 seconds
+2024-07-12 12:19:15,011 - Fetching data for concor is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:15,011 - Time taken for concor: 0.6212549209594727 seconds
+2024-07-12 12:19:15,611 - Fetching data for coromandel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:15,611 - Time taken for coromandel: 0.6000981330871582 seconds
+2024-07-12 12:19:16,188 - Fetching data for crompton is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:16,188 - Time taken for crompton: 0.5769987106323242 seconds
+2024-07-12 12:19:16,838 - Fetching data for cumminsind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:16,838 - Time taken for cumminsind: 0.6497182846069336 seconds
+2024-07-12 12:19:17,321 - Fetching data for reliance is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:17,321 - Time taken for reliance: 0.4834156036376953 seconds
+2024-07-12 12:19:18,038 - Fetching data for sail is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:18,054 - Time taken for sail: 0.7321374416351318 seconds
+2024-07-12 12:19:18,687 - Fetching data for dalbharat is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:18,695 - Time taken for dalbharat: 0.6419327259063721 seconds
+2024-07-12 12:19:19,312 - Fetching data for deepakntr is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:19,312 - Time taken for deepakntr: 0.6166472434997559 seconds
+2024-07-12 12:19:19,934 - Fetching data for msumi is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:19,943 - Time taken for msumi: 0.6308555603027344 seconds
+2024-07-12 12:19:20,533 - Fetching data for powergrid is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:20,533 - Time taken for powergrid: 0.5895178318023682 seconds
+2024-07-12 12:19:21,127 - Fetching data for epigral is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:21,127 - Time taken for epigral: 0.5933210849761963 seconds
+2024-07-12 12:19:21,872 - Fetching data for escorts is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:21,872 - Time taken for escorts: 0.7450869083404541 seconds
+2024-07-12 12:19:22,720 - Fetching data for fact is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:22,720 - Time taken for fact: 0.8483343124389648 seconds
+2024-07-12 12:19:23,476 - Fetching data for fluorochem is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:23,476 - Time taken for fluorochem: 0.7561140060424805 seconds
+2024-07-12 12:19:24,145 - Fetching data for gail is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:24,145 - Time taken for gail: 0.6606388092041016 seconds
+2024-07-12 12:19:24,895 - Fetching data for gland is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:24,895 - Time taken for gland: 0.7506332397460938 seconds
+2024-07-12 12:19:25,552 - Fetching data for delhivery is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:25,552 - Time taken for delhivery: 0.6567192077636719 seconds
+2024-07-12 12:19:26,289 - Fetching data for divislab is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:26,289 - Time taken for divislab: 0.7373244762420654 seconds
+2024-07-12 12:19:26,903 - Fetching data for dixon is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:26,911 - Time taken for dixon: 0.6213421821594238 seconds
+2024-07-12 12:19:27,594 - Fetching data for dlf is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:27,594 - Time taken for dlf: 0.6834456920623779 seconds
+2024-07-12 12:19:28,289 - Fetching data for drreddy is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:28,289 - Time taken for drreddy: 0.695098876953125 seconds
+2024-07-12 12:19:28,994 - Fetching data for eichermot is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:28,994 - Time taken for eichermot: 0.7045388221740723 seconds
+2024-07-12 12:19:29,792 - Fetching data for m&mfin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:29,807 - Time taken for m&mfin: 0.8134012222290039 seconds
+2024-07-12 12:19:30,566 - Fetching data for mankind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:30,566 - Time taken for mankind: 0.7584178447723389 seconds
+2024-07-12 12:19:31,327 - Fetching data for marico is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:31,335 - Time taken for marico: 0.7577042579650879 seconds
+2024-07-12 12:19:32,259 - Fetching data for maruti is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:32,261 - Time taken for maruti: 0.9244804382324219 seconds
+2024-07-12 12:19:32,855 - Fetching data for maxhealth is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:32,855 - Time taken for maxhealth: 0.5928523540496826 seconds
+2024-07-12 12:19:33,603 - Fetching data for mazdock is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:33,604 - Time taken for mazdock: 0.7486567497253418 seconds
+2024-07-12 12:19:34,267 - Fetching data for mcdowell-n is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:34,267 - Time taken for mcdowell-n: 0.6609041690826416 seconds
+2024-07-12 12:19:34,975 - Fetching data for mfsl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:34,975 - Time taken for mfsl: 0.7082161903381348 seconds
+2024-07-12 12:19:35,611 - Fetching data for motherson is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:35,611 - Time taken for motherson: 0.6360909938812256 seconds
+2024-07-12 12:19:36,195 - Fetching data for jswenergy is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:36,195 - Time taken for jswenergy: 0.583911657333374 seconds
+2024-07-12 12:19:36,826 - Fetching data for jswsteel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:36,827 - Time taken for jswsteel: 0.6174314022064209 seconds
+2024-07-12 12:19:37,460 - Fetching data for jublfood is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:37,460 - Time taken for jublfood: 0.6330015659332275 seconds
+2024-07-12 12:19:38,295 - Fetching data for kotakbank is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:38,295 - Time taken for kotakbank: 0.8352055549621582 seconds
+2024-07-12 12:19:38,930 - Fetching data for ambujacem is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:38,930 - Time taken for ambujacem: 0.6357831954956055 seconds
+2024-07-12 12:19:39,641 - Fetching data for aplapollo is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:39,641 - Time taken for aplapollo: 0.6947283744812012 seconds
+2024-07-12 12:19:40,253 - Fetching data for naukri is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:40,253 - Time taken for naukri: 0.6124913692474365 seconds
+2024-07-12 12:19:40,894 - Fetching data for mphasis is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:40,894 - Time taken for mphasis: 0.6402316093444824 seconds
+2024-07-12 12:19:41,644 - Fetching data for godrejprop is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:41,644 - Time taken for godrejprop: 0.7507514953613281 seconds
+2024-07-12 12:19:42,396 - Fetching data for dabur is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:42,398 - Time taken for dabur: 0.753807783126831 seconds
+2024-07-12 12:19:43,213 - Fetching data for grasim is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:43,213 - Time taken for grasim: 0.8146910667419434 seconds
+2024-07-12 12:19:43,983 - Fetching data for gujgasltd is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:43,983 - Time taken for gujgasltd: 0.7702217102050781 seconds
+2024-07-12 12:19:44,738 - Fetching data for hal is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:44,738 - Time taken for hal: 0.7544629573822021 seconds
+2024-07-12 12:19:45,550 - Fetching data for havells is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:45,550 - Time taken for havells: 0.8125905990600586 seconds
+2024-07-12 12:19:46,115 - Fetching data for kpittech is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:46,115 - Time taken for kpittech: 0.564349889755249 seconds
+2024-07-12 12:19:48,327 - 
+1 Failed download:
+2024-07-12 12:19:48,328 - ['L&TFH.NS']: YFTzMissingError('$%ticker%: possibly delisted; No timezone found')
+2024-07-12 12:19:48,328 - Error occurred while fetching data for l&tfh: 'Index' object has no attribute 'strftime'
+2024-07-12 12:19:48,907 - Fetching data for latentview is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:48,907 - Time taken for latentview: 0.5782015323638916 seconds
+2024-07-12 12:19:49,442 - Fetching data for lauruslabs is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:49,447 - Time taken for lauruslabs: 0.5406513214111328 seconds
+2024-07-12 12:19:50,105 - Fetching data for lichsgfin is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:50,111 - Time taken for lichsgfin: 0.6641557216644287 seconds
+2024-07-12 12:19:50,689 - Fetching data for lici is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:50,689 - Time taken for lici: 0.5773200988769531 seconds
+2024-07-12 12:19:51,347 - Fetching data for hcltech is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:51,347 - Time taken for hcltech: 0.6581039428710938 seconds
+2024-07-12 12:19:51,993 - Fetching data for hdfcamc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:51,993 - Time taken for hdfcamc: 0.6464931964874268 seconds
+2024-07-12 12:19:52,591 - Fetching data for hdfcbank is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:52,591 - Time taken for hdfcbank: 0.5979247093200684 seconds
+2024-07-12 12:19:53,221 - Fetching data for hdfclife is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:53,221 - Time taken for hdfclife: 0.6298165321350098 seconds
+2024-07-12 12:19:53,856 - Fetching data for irfc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:53,856 - Time taken for irfc: 0.635073184967041 seconds
+2024-07-12 12:19:54,715 - Fetching data for ubl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:54,715 - Time taken for ubl: 0.8588354587554932 seconds
+2024-07-12 12:19:55,420 - Fetching data for ultracemco is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:55,420 - Time taken for ultracemco: 0.7053661346435547 seconds
+2024-07-12 12:19:56,157 - Fetching data for unionbank is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:56,157 - Time taken for unionbank: 0.7280886173248291 seconds
+2024-07-12 12:19:56,808 - Fetching data for upl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:56,808 - Time taken for upl: 0.6510004997253418 seconds
+2024-07-12 12:19:57,461 - Fetching data for vbl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:57,463 - Time taken for vbl: 0.6556241512298584 seconds
+2024-07-12 12:19:58,311 - Fetching data for vedl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:58,311 - Time taken for vedl: 0.8478331565856934 seconds
+2024-07-12 12:19:59,180 - Fetching data for godrejcp is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:19:59,180 - Time taken for godrejcp: 0.8693463802337646 seconds
+2024-07-12 12:20:00,002 - Fetching data for wipro is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:00,002 - Time taken for wipro: 0.8216378688812256 seconds
+2024-07-12 12:20:00,786 - Fetching data for pel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:00,786 - Time taken for pel: 0.7843022346496582 seconds
+2024-07-12 12:20:01,632 - Fetching data for trent is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:01,632 - Time taken for trent: 0.8456711769104004 seconds
+2024-07-12 12:20:02,332 - Fetching data for tvsmotor is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:02,346 - Time taken for tvsmotor: 0.713822603225708 seconds
+2024-07-12 12:20:02,962 - Fetching data for aartiind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:02,964 - Time taken for aartiind: 0.618563175201416 seconds
+2024-07-12 12:20:03,770 - Fetching data for persistent is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:03,770 - Time taken for persistent: 0.8059792518615723 seconds
+2024-07-12 12:20:04,510 - Fetching data for petronet is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:04,512 - Time taken for petronet: 0.7419369220733643 seconds
+2024-07-12 12:20:05,189 - Fetching data for pfc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:05,189 - Time taken for pfc: 0.6764376163482666 seconds
+2024-07-12 12:20:05,967 - Fetching data for pghh is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:05,967 - Time taken for pghh: 0.7781538963317871 seconds
+2024-07-12 12:20:06,638 - Fetching data for pidilitind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:06,646 - Time taken for pidilitind: 0.679431676864624 seconds
+2024-07-12 12:20:07,420 - Fetching data for piind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:07,420 - Time taken for piind: 0.7734053134918213 seconds
+2024-07-12 12:20:08,206 - Fetching data for tcs is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:08,206 - Time taken for tcs: 0.7867825031280518 seconds
+2024-07-12 12:20:08,989 - Fetching data for techm is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:08,989 - Time taken for techm: 0.7822246551513672 seconds
+2024-07-12 12:20:09,798 - Fetching data for tiindia is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:09,798 - Time taken for tiindia: 0.8098006248474121 seconds
+2024-07-12 12:20:10,671 - Fetching data for navinfluor is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:10,671 - Time taken for navinfluor: 0.8729138374328613 seconds
+2024-07-12 12:20:11,365 - Fetching data for nestleind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:11,365 - Time taken for nestleind: 0.6933200359344482 seconds
+2024-07-12 12:20:12,213 - Fetching data for nhpc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:12,213 - Time taken for nhpc: 0.847902774810791 seconds
+2024-07-12 12:20:12,970 - Fetching data for nmdc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:12,970 - Time taken for nmdc: 0.7574822902679443 seconds
+2024-07-12 12:20:13,842 - Fetching data for ntpc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:13,842 - Time taken for ntpc: 0.8719708919525146 seconds
+2024-07-12 12:20:14,574 - Fetching data for nykaa is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:14,574 - Time taken for nykaa: 0.7318086624145508 seconds
+2024-07-12 12:20:15,242 - Fetching data for oberoirlty is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:15,242 - Time taken for oberoirlty: 0.6676924228668213 seconds
+2024-07-12 12:20:16,003 - Fetching data for oil is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:16,003 - Time taken for oil: 0.7612349987030029 seconds
+2024-07-12 12:20:16,874 - Fetching data for ongc is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:16,874 - Time taken for ongc: 0.8661160469055176 seconds
+2024-07-12 12:20:17,730 - Fetching data for pageind is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:17,730 - Time taken for pageind: 0.8564000129699707 seconds
+2024-07-12 12:20:18,536 - Fetching data for patanjali is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:18,536 - Time taken for patanjali: 0.8062167167663574 seconds
+2024-07-12 12:20:19,326 - Fetching data for heromotoco is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:19,326 - Time taken for heromotoco: 0.79030442237854 seconds
+2024-07-12 12:20:20,298 - Fetching data for hindalco is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:20,298 - Time taken for hindalco: 0.9556779861450195 seconds
+2024-07-12 12:20:20,982 - Fetching data for hindpetro is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:20,982 - Time taken for hindpetro: 0.6839704513549805 seconds
+2024-07-12 12:20:21,539 - Fetching data for hindunilvr is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:21,539 - Time taken for hindunilvr: 0.5496728420257568 seconds
+2024-07-12 12:20:22,161 - Fetching data for icicibank is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:22,161 - Time taken for icicibank: 0.6215488910675049 seconds
+2024-07-12 12:20:22,710 - Fetching data for icicigi is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:22,710 - Time taken for icicigi: 0.5493910312652588 seconds
+2024-07-12 12:20:23,341 - Fetching data for icicipruli is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:23,341 - Time taken for icicipruli: 0.6311209201812744 seconds
+2024-07-12 12:20:24,149 - Fetching data for idfcfirstb is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:24,149 - Time taken for idfcfirstb: 0.807722806930542 seconds
+2024-07-12 12:20:24,921 - Fetching data for igl is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:24,921 - Time taken for igl: 0.7721643447875977 seconds
+2024-07-12 12:20:25,693 - Fetching data for indhotel is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:25,693 - Time taken for indhotel: 0.771979808807373 seconds
+2024-07-12 12:20:26,429 - Fetching data for indigo is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:26,429 - Time taken for indigo: 0.7356832027435303 seconds
+2024-07-12 12:20:27,172 - Fetching data for indusindbk is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:27,172 - Time taken for indusindbk: 0.7432990074157715 seconds
+2024-07-12 12:20:27,958 - Fetching data for apollohosp is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:27,958 - Time taken for apollohosp: 0.785912036895752 seconds
+2024-07-12 12:20:28,661 - Fetching data for apollotyre is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:28,669 - Time taken for apollotyre: 0.7110133171081543 seconds
+2024-07-12 12:20:29,403 - Fetching data for asianpaint is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:29,403 - Time taken for asianpaint: 0.7336122989654541 seconds
+2024-07-12 12:20:30,322 - Fetching data for lodha is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:30,322 - Time taken for lodha: 0.9187018871307373 seconds
+2024-07-12 12:20:31,212 - Fetching data for lt is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:31,212 - Time taken for lt: 0.8869838714599609 seconds
+2024-07-12 12:20:31,971 - Fetching data for astral is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:31,971 - Time taken for astral: 0.7593190670013428 seconds
+2024-07-12 12:20:32,802 - Fetching data for aubank is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:32,815 - Time taken for aubank: 0.8440802097320557 seconds
+2024-07-12 12:20:33,643 - Fetching data for auropharma is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:33,643 - Time taken for auropharma: 0.8278889656066895 seconds
+2024-07-12 12:20:35,002 - Fetching data for abcapital is completed from 2024-05-18 till 2024-05-31
+2024-07-12 12:20:35,002 - Time taken for abcapital: 1.358743667602539 seconds
+2024-07-12 12:20:35,002 - Overall time taken: 136.36430430412292 seconds

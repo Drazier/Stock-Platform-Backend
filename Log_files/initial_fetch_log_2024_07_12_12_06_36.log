@@ -1,0 +1,13 @@
+2024-07-12 12:06:36,485 - 
+
+DATABASE : Demo
+
+2024-07-12 12:06:48,809 - 
+1 Failed download:
+2024-07-12 12:06:48,810 - ['ACC.NS']: ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\'query1.finance.yahoo.com\', port=443): Max retries exceeded with url: /v1/test/getcrumb (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001D026C03190>: Failed to resolve \'query1.finance.yahoo.com\' ([Errno 11001] getaddrinfo failed)"))'))
+2024-07-12 12:06:48,810 - Error occurred while fetching data for acc: 'Index' object has no attribute 'strftime'
+2024-07-12 12:07:00,882 - Failed to get ticker 'ACL.NS' reason: HTTPSConnectionPool(host='query1.finance.yahoo.com', port=443): Max retries exceeded with url: /v1/test/getcrumb (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001D026C13C10>: Failed to resolve 'query1.finance.yahoo.com' ([Errno 11001] getaddrinfo failed)"))
+2024-07-12 12:07:00,893 - 
+1 Failed download:
+2024-07-12 12:07:00,893 - ['ACL.NS']: YFTzMissingError('$%ticker%: possibly delisted; No timezone found')
+2024-07-12 12:07:00,893 - Error occurred while fetching data for acl: 'Index' object has no attribute 'strftime'

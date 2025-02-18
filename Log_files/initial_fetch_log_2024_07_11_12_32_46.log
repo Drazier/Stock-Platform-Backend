@@ -1,0 +1,15 @@
+2024-07-11 12:32:46,959 - 
+
+DATABASE : Demo
+
+2024-07-11 12:32:55,683 - Fetching data for ^NSEI is completed from 2024-05-17 till 2024-05-31
+2024-07-11 12:32:55,683 - Time taken for ^NSEI: 8.724590063095093 seconds
+2024-07-11 12:32:56,679 - Fetching data for ^NSEBANK is completed from 2024-05-17 till 2024-05-31
+2024-07-11 12:32:56,679 - Time taken for ^NSEBANK: 0.9961516857147217 seconds
+2024-07-11 12:32:58,021 - Fetching data for ZYDUSLIFE is completed from 2024-05-17 till 2024-05-31
+2024-07-11 12:32:58,022 - Time taken for ZYDUSLIFE: 1.3414196968078613 seconds
+2024-07-11 12:32:59,030 - Fetching data for HDFCBANK is completed from 2024-05-17 till 2024-05-31
+2024-07-11 12:32:59,030 - Time taken for HDFCBANK: 1.0086669921875 seconds
+2024-07-11 12:33:00,363 - Fetching data for AXISBANK is completed from 2024-05-17 till 2024-05-31
+2024-07-11 12:33:00,364 - Time taken for AXISBANK: 1.3334083557128906 seconds
+2024-07-11 12:33:00,364 - Overall time taken: 13.420757293701172 seconds

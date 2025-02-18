@@ -1,0 +1,28 @@
+2024-07-11 14:25:41,547 - 
+
+DATABASE : Demo
+
+2024-07-11 14:25:41,581 - Error occurred while processing table: AARTIIND_15m
+2024-07-11 14:25:41,581 - Error message: '1d_Open'
+2024-07-11 14:25:41,594 - Error occurred while processing table: AARTIIND_1h
+2024-07-11 14:25:41,594 - Error message: '1d_Open'
+2024-07-11 14:25:41,633 - Error occurred while processing table: AARTIIND_1d
+2024-07-11 14:25:41,633 - Error message: '1d_Open'
+2024-07-11 14:25:41,658 - Error occurred while processing table: ABB_15m
+2024-07-11 14:25:41,658 - Error message: '1d_Open'
+2024-07-11 14:25:41,684 - Error occurred while processing table: ABB_1h
+2024-07-11 14:25:41,684 - Error message: '1d_Open'
+2024-07-11 14:25:41,704 - Error occurred while processing table: ABB_1d
+2024-07-11 14:25:41,704 - Error message: '1d_Open'
+2024-07-11 14:25:42,825 - Time taken for ^NSEI: 1.1210658550262451 seconds
+2024-07-11 14:25:42,825 - Data processing for ^NSEI completed successfully
+2024-07-11 14:25:43,494 - Time taken for ^NSEBANK: 0.6687538623809814 seconds
+2024-07-11 14:25:43,494 - Data processing for ^NSEBANK completed successfully
+2024-07-11 14:25:44,254 - Time taken for ZYDUSLIFE: 0.7601852416992188 seconds
+2024-07-11 14:25:44,254 - Data processing for ZYDUSLIFE completed successfully
+2024-07-11 14:25:45,074 - Time taken for HDFCBANK: 0.8201191425323486 seconds
+2024-07-11 14:25:45,074 - Data processing for HDFCBANK completed successfully
+2024-07-11 14:25:45,803 - Time taken for AXISBANK: 0.7287402153015137 seconds
+2024-07-11 14:25:45,803 - Data processing for AXISBANK completed successfully
+2024-07-11 14:25:45,804 - Overall time taken: 4.256974458694458 seconds
+2024-07-11 14:25:45,804 - Data processing for all tables completed successfully
